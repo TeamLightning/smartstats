@@ -1,0 +1,30 @@
+{
+  "name": "smarthacks/slimex",
+  "description": "A framework created using slim php to kickstart your project and stand out",
+  "minimum-stability": "beta",
+  "license": "MIT",
+  "type": "project",
+  "authors": [
+    {
+      "name": "xXAlphaManXx",
+      "email": "alpha@smarthacksinc.com"
+    }
+  ],
+  "require": {
+    "slim/slim": "3.8.1",
+    "slim/twig-view": "2.2.0",
+    "catfan/medoo": "v1.2.1",
+    "alexgarrett/violin": "^2.2"
+  },
+  "autoload": {
+    "psr-4":{
+      "App\\": "app/"
+    },
+    "files": ["app/functions.php"]
+  },
+  "scripts": {
+    "rm-cache": [
+      "cd storage && rm -rf cache && mkdir cache && cd cache && mkdir views app"
+    ]
+  }
+}
