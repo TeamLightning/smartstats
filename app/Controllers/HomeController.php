@@ -34,4 +34,26 @@ class HomeController extends Controller
     {
         return $this->view->render($res, 'auth/signup.twig');
     }
+
+    /**
+     * @param $req
+     * @param $res
+     * @param $args
+     * @return mixed
+     */
+    public function getlogin($req, $res, $args)
+    {
+        return $this->LoginHandler->login($req, $res, $args);
+    }
+
+    /**
+     * @param $req
+     * @param $res
+     * @param $args
+     * @return mixed
+     */
+    public function getsignup($req, $res, $args)
+    {
+        return $this->SignUpHandler->auth($req, $res, $args);
+    }
 }

@@ -6,6 +6,11 @@
             <h3 class="panel-title" style="text-align: center;">Login now</h3>
         </div>
         <div class="panel-body">
+            {% if message %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endif %}
             <form action="{{ base_url() }}/auth/login" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -20,28 +25,6 @@
                 </div>
             </form>
         </div>
-        {% if validation %}
-            <div class="panel-footer">
-                <div class="alert alert-danger">
-                    <ul>
-                        {% if validation.first('username') %}
-                            <li>{{ validation.first('username') }}</li>
-                        {% endif %}
-                        {% if validation.first('password') %}
-                            <li>{{ validation.first('password') }}</li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-        {% if error %}
-            <div class="panel-footer">
-                <div class="alert alert-danger">
-                    <ul>
-                        <li>{{ error }}</li>
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
+        {% include 'auth/templates/error.twig' %}
     </div>
 {% endblock %}

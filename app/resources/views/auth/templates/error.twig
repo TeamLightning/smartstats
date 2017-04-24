@@ -1,0 +1,23 @@
+{% if validation %}
+    <div class="panel-footer">
+        <div class="alert alert-danger">
+            <ul>
+                {% if validation.first('username') %}
+                    <li>{{ validation.first('username') }}</li>
+                {% endif %}
+                {% if validation.first('password') %}
+                    <li>{{ validation.first('password') }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% if error %}
+<div class="panel-footer">
+    <div class="alert alert-danger">
+        <ul>
+            <li>{{ error }}</li>
+        </ul>
+    </div>
+</div>
+{% endif %}

@@ -1,19 +1,13 @@
 <?php
 
-namespace App\Middlewares;
+namespace App\Authenticator;
 
 use Violin\Violin as v;
 
-class LoginMiddleware extends Middleware
+
+class LoginHandler extends Auth
 {
-    /**
-     * @param \Psr\Http\Message\ServerRequestInterface $req  Binds the PSR-7 request object
-     * @param \Psr\Http\Message\ResponseInterface      $res  Binds the PSR-7 response object
-     * @param                                          $next
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function __invoke($req, $res, $next)
+    public function login($req, $res, $next)
     {
         if($this->loggedIn()) {
             return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
@@ -24,7 +18,7 @@ class LoginMiddleware extends Middleware
 
         $v->validate([
             'username|Username' => [$data['username'], 'required|alnumDash|min(5)|max(20)'],
-            'password|Password' => [$data['password'], 'required|alnumDash|min(5)|max(100)'],
+            'password|Password' => [$data['password'], 'required|alnumDash|min(6)|max(100)'],
         ]);
 
         if($v->fails()) {
@@ -48,7 +42,7 @@ class LoginMiddleware extends Middleware
                     break;
                 default:
                     return $this->container->view->render($res, 'auth/login.twig', [
-                        'error' => 'Something really bad had happend. But don\'t worry, your account is safe',
+                        'error' => 'Something really bad had happened. But don\'t worry, your account is safe',
                     ]);
             }
         }
@@ -82,7 +76,7 @@ class LoginMiddleware extends Middleware
         //This will not happen. But, I wanted my IDE to un-mark this function as incomplete
 
         return $this->container->view->render($res, 'auth/login.twig', [
-            'error' => 'Oops, something really bad had happend. This actually should not occur.',
+            'error' => 'Oops, something really bad had happened. This actually should not occur.',
         ]);
     }
 

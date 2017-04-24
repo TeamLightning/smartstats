@@ -19,10 +19,14 @@ $app->group('/auth', function() use ($container) {
     })->add(new \App\Middlewares\UserMiddleware($container))
       ->setName('auth.logout');
 
-    $this->post('/login', 'HomeController:login')
-        ->add(new \App\Middlewares\LoginMiddleware($container))
+    $this->post('/login', 'HomeController:getlogin')
         ->setName('auth.login.post');
-    $this->post('/signup', 'HomeController:signup')
-        ->add(/*new \App\Middlewares\SignUpMiddleware($container)*/)
+    $this->post('/signup', 'HomeController:getsignup')
         ->setName('auth.signup.post');
+});
+
+$app->group('/user', function () use ($container) {
+    $this->get('/home', 'UserController:home')
+        ->add(new \App\Middlewares\UserMiddleware($container))
+        ->setName('user.home');
 });

@@ -21,6 +21,10 @@ $container['HomeController'] = function ($container) {
     return new \App\Controllers\HomeController($container);
 };
 
-$container['validator'] = function ($container) {
-    return new \App\Validation\Validator($container);
+$container['LoginHandler'] = function ($container) {
+    return new \App\Authenticator\LoginHandler($container);
+};
+
+$container['SignUpHandler'] = function ($container) {
+    return new \App\Authenticator\SignUpHandler($container);
 };

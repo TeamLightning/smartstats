@@ -1,0 +1,34 @@
+{% extends 'auth/templates/home.twig' %}
+
+{% block content %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="text-align: center;">Login now</h3>
+        </div>
+        <div class="panel-body">
+            {% if message %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <form action="{{ base_url() }}/auth/signup" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password_r">Password Repeat</label>
+                    <input type="password" name="password_r" id="password_r" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary form-control" value="Submit">
+                </div>
+            </form>
+        </div>
+        {% include 'auth/templates/error.twig' %}
+    </div>
+{% endblock %}
