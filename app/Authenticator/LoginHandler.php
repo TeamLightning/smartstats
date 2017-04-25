@@ -75,7 +75,7 @@ class LoginHandler extends Auth
                 $_SESSION['loggedIn'] = TRUE;
 
                 // Temporary solution.
-                // @todo: A more robust solution required
+                // @todo: A more robust solution required in v: 1.0.2
                 return $this->container->view->render($res, 'temp.twig');
             } else {
                 return $this->container->view->render($res, 'auth/login.twig', [
