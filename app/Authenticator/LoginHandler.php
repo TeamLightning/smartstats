@@ -7,6 +7,13 @@ use Violin\Violin as v;
 
 class LoginHandler extends Auth
 {
+    /**
+     * @param \Psr\Http\Message\RequestInterface       $req
+     * @param \Psr\Http\Message\ResponseInterface      $res
+     * @param \Psr\Http\Message\ResponseInterface      $next
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function login($req, $res, $next)
     {
         if($this->loggedIn()) {
@@ -33,7 +40,7 @@ class LoginHandler extends Auth
 
             switch (count($result)) {
                 case 1:
-                    $this->authenticate($result, $data, $req, $res, $next);
+                    $this->authenticate($data, $req, $res, $next);
                     break;
                 case 0:
                     return $this->container->view->render($res, 'auth/login.twig', [
@@ -49,7 +56,6 @@ class LoginHandler extends Auth
     }
 
     /**
-     * @param \Medoo\Medoo                             $results
      * @param \Psr\Http\Message\RequestInterface array $data
      * @param \Psr\Http\Message\RequestInterface       $req
      * @param \Psr\Http\Message\ResponseInterface      $res
@@ -57,12 +63,15 @@ class LoginHandler extends Auth
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    private function authenticate($results, $data, $req, $res, $next)
+    private function authenticate($data, $req, $res, $next)
     {
+        $results = $this->container->db->select('users', '*', ['username' => $data['username']]);
+
         foreach ($results as $result):
-            if(password_verify($data['password'], $result->password)) {
-                $_SESSION['username'] = $result->username;
-                $_SESSION['account']  = $result->account;
+            if(password_verify($data['password'], $result['password'])) {
+                $_SESSION['username'] = $result['username'];
+                $_SESSION['account']  = $result['account'];
+                $_SESSION['user_id']  = $result['id'];
                 $_SESSION['loggedIn'] = TRUE;
 
                 return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
