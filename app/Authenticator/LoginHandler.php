@@ -67,20 +67,22 @@ class LoginHandler extends Auth
     {
         $results = $this->container->db->select('users', '*', ['username' => $data['username']]);
 
-        foreach ($results as $result):
-            if(password_verify($data['password'], $result['password'])) {
+        foreach ($results as $result) {
+            if (password_verify($data['password'], $result['password'])) {
                 $_SESSION['username'] = $result['username'];
-                $_SESSION['account']  = $result['account'];
-                $_SESSION['user_id']  = $result['id'];
+                $_SESSION['account'] = $result['account'];
+                $_SESSION['user_id'] = $result['id'];
                 $_SESSION['loggedIn'] = TRUE;
 
-                return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
+                // Temporary solution.
+                // @todo: A more robust solution required
+                return $this->container->view->render($res, 'temp.twig');
             } else {
                 return $this->container->view->render($res, 'auth/login.twig', [
                     'error' => 'Oops, the password is wrong. Why not give another try?',
                 ]);
             }
-        endforeach;
+        }
 
         //This will not happen. But, I wanted my IDE to un-mark this function as incomplete
 
