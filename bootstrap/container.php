@@ -21,6 +21,10 @@ $container['HomeController'] = function ($container) {
     return new \App\Controllers\HomeController($container);
 };
 
+$container['UserController'] = function ($container) {
+    return new \App\Controllers\UserController($container);
+};
+
 $container['LoginHandler'] = function ($container) {
     return new \App\Authenticator\LoginHandler($container);
 };

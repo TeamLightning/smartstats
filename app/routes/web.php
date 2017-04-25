@@ -14,8 +14,7 @@ $app->group('/auth', function() use ($container) {
     $this->get('/logout', function ($req, $res, $args) {
         session_destroy();
         unset($_SESSION);
-
-        return $res->withHeader('Location', $this->container->router->pathFor('index'));
+        return $res->withHeader('Location', '/');
     })->add(new \App\Middlewares\UserMiddleware($container))
       ->setName('auth.logout');
 

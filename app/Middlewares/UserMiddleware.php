@@ -17,7 +17,7 @@ class UserMiddleware extends Middleware
 
     private function loggedIn()
     {
-        if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === TRUE) {
+        if(isset($_SESSION['loggedIn'])) {
             return TRUE;
         } else {
             return FALSE;
