@@ -29,7 +29,7 @@ class LoginHandler extends Auth
         ]);
 
         if($v->fails()) {
-            return $this->container->view->render($res, 'auth/login.twig', [
+            return $this->view($res, 'auth/login.twig', [
                 'validation' => $v->errors(),
             ]);
         } else {
@@ -43,12 +43,12 @@ class LoginHandler extends Auth
                     $this->authenticate($data, $req, $res, $next);
                     break;
                 case 0:
-                    return $this->container->view->render($res, 'auth/login.twig', [
+                    return $this->view($res, 'auth/login', [
                         'error' => 'Sorry, no account is associated with this username',
                     ]);
                     break;
                 default:
-                    return $this->container->view->render($res, 'auth/login.twig', [
+                    return $this->view($res, 'auth/login', [
                         'error' => 'Something really bad had happened. But don\'t worry, your account is safe',
                     ]);
             }
@@ -76,9 +76,9 @@ class LoginHandler extends Auth
 
                 // Temporary solution.
                 // @todo: A more robust solution required in v: 1.0.2
-                return $this->container->view->render($res, 'temp.twig');
+                return $this->view($res, 'temp');
             } else {
-                return $this->container->view->render($res, 'auth/login.twig', [
+                return $this->view($res, 'auth/login', [
                     'error' => 'Oops, the password is wrong. Why not give another try?',
                 ]);
             }
@@ -86,7 +86,7 @@ class LoginHandler extends Auth
 
         //This will not happen. But, I wanted my IDE to un-mark this function as incomplete
 
-        return $this->container->view->render($res, 'auth/login.twig', [
+        return $this->view($res, 'auth/login', [
             'error' => 'Oops, something really bad had happened. This actually should not occur.',
         ]);
     }

@@ -16,7 +16,7 @@ class SignUpHandler extends Auth
         $v = new v;
 
         if($data['password'] !== $data['password_r']){
-            return $this->container->view->render($res, 'auth/signup.twig', [
+            return $this->view($res, 'auth/signup', [
                 'error' => 'The passwords didn\'t match',
             ]);
         }
@@ -28,7 +28,7 @@ class SignUpHandler extends Auth
         ]);
 
         if($v->fails()) {
-            return $this->container->view->render($res, 'auth/signup.twig', [
+            return $this->view($res, 'auth/signup', [
                 'validation' => $v->errors(),
             ]);
         } else {
@@ -46,11 +46,13 @@ class SignUpHandler extends Auth
      */
     private function checkUsername($data, $req, $res, $next)
     {
-        $result = count($this->container->db->select('users', '*', ['username' => $data['username']]));
+        $result = count($this->db()->select('users', '*', [
+            'username' => $data['username']
+        ]));
 
         switch ($result) {
             case 1:
-                return $this->container->view->render($res, 'auth/signup.twig', [
+                return $this->view($res, 'auth/signup', [
                     'error' => 'The username already exist in our database'
                 ]);
                 break;
@@ -60,7 +62,7 @@ class SignUpHandler extends Auth
                 break;
 
             default:
-                return $this->container->view->render($res, 'auth/signup.twig', [
+                return $this->view($res, 'auth/signup', [
                     'error' => 'Oops, something really bad had happened in our system',
                 ]);
         }
@@ -76,13 +78,13 @@ class SignUpHandler extends Auth
      */
     private function signUp($data, $req, $res, $next)
     {
-        $this->container->db->insert('users', [
+        $this->db()->insert('users', [
             'username' => htmlspecialchars($data['username']),
             'password' => password_hash($data['password'], PASSWORD_BCRYPT),
             'account'  => 0,
         ]);
 
-        return $this->container->view->render($res, 'auth/login.twig', [
+        return $this->view($res, 'auth/login', [
             'message' => 'Account had been created successfully. Login now',
         ]);
     }

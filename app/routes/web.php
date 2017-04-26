@@ -5,18 +5,19 @@ $app->get('/', 'HomeController:index')
     ->setName('index');
 
 $app->group('/auth', function() use ($container) {
+    $this->get('/logout', function ($req, $res, $args) {
+        session_destroy();
+        unset($_SESSION);
+        return $res->withHeader('Location', '/');
+    })->add(new \App\Middlewares\UserMiddleware($container))
+        ->setName('auth.logout');
     $this->get('/login', 'HomeController:login')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.login');
     $this->get('/signup', 'HomeController:signup')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.signup');
-    $this->get('/logout', function ($req, $res, $args) {
-        session_destroy();
-        unset($_SESSION);
-        return $res->withHeader('Location', '/');
-    })->add(new \App\Middlewares\UserMiddleware($container))
-      ->setName('auth.logout');
+
 
     $this->post('/login', 'HomeController:getlogin')
         ->setName('auth.login.post');
