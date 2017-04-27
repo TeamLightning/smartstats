@@ -98,4 +98,16 @@ class UserController extends Controller
             'error' => 'Something really bad had happened'
         ]);
     }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function showCreate($req, $res, $args)
+    {
+        return $this->view($res, 'user/create', []);
+    }
 }

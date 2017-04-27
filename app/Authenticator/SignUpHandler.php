@@ -8,10 +8,6 @@ class SignUpHandler extends Auth
 {
     public function auth($req, $res, $next)
     {
-        if($this->loggedIn()) {
-            return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
-        }
-
         $data = $req->getParsedBody();
         $v = new v;
 
@@ -87,14 +83,5 @@ class SignUpHandler extends Auth
         return $this->view($res, 'auth/login', [
             'message' => 'Account had been created successfully. Login now',
         ]);
-    }
-
-    private function loggedIn()
-    {
-        if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === TRUE) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
     }
 }

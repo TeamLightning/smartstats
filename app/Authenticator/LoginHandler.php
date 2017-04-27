@@ -16,10 +16,6 @@ class LoginHandler extends Auth
      */
     public function login($req, $res, $next)
     {
-        if($this->loggedIn()) {
-            return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
-        }
-
         $data = $req->getParsedBody();
         $v = new v;
 
@@ -89,14 +85,5 @@ class LoginHandler extends Auth
         return $this->view($res, 'auth/login', [
             'error' => 'Oops, something really bad had happened. This actually should not occur.',
         ]);
-    }
-
-    private function loggedIn()
-    {
-        if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === TRUE) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
     }
 }
