@@ -3,18 +3,16 @@
 namespace App\Authenticator;
 
 
-use Medoo\Medoo;
-
 class Auth
 {
     /**
-     * @var
+     * @var \Slim\Container $container
      */
     protected $container;
 
     /**
      * Auth constructor.
-     * @param $container
+     * @param \Slim\Container $container
      */
     public function __construct($container)
     {
@@ -44,5 +42,29 @@ class Auth
     protected function db()
     {
         return $this->container->db;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function cookieSet()
+    {
+        if (isset($_COOKIE['cookie']) && $_COOKIE['cookie'] === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function loggedIn()
+    {
+        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === TRUE) {
+            return true;
+        }
+
+        return false;
     }
 }

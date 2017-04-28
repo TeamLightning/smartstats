@@ -32,3 +32,7 @@ $container['LoginHandler'] = function ($container) {
 $container['SignUpHandler'] = function ($container) {
     return new \App\Authenticator\SignUpHandler($container);
 };
+
+$container['CookieHandler'] = function ($container) {
+    return new \App\Authenticator\CookieHandler($container);
+};

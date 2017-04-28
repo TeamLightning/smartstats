@@ -19,13 +19,17 @@ class LoginHandler extends Auth
         $data = $req->getParsedBody();
         $v = new v;
 
+        if ($this->cookieSet()) {
+            return $res->withHeader('Location', $this->container->router->pathFor('auth.cookie'));
+        }
+
         $v->validate([
             'username|Username' => [$data['username'], 'required|alnumDash|min(5)|max(20)'],
             'password|Password' => [$data['password'], 'required|alnumDash|min(6)|max(100)'],
         ]);
 
         if($v->fails()) {
-            return $this->view($res, 'auth/login.twig', [
+            return $this->view($res, 'auth/login', [
                 'validation' => $v->errors(),
             ]);
         } else {
@@ -69,6 +73,12 @@ class LoginHandler extends Auth
                 $_SESSION['account'] = $result['account'];
                 $_SESSION['user_id'] = $result['id'];
                 $_SESSION['loggedIn'] = TRUE;
+
+                setcookie('username', $result['username'], time() * 2, '/');
+                setcookie('account', $result['account'], time() * 2, '/');
+                setcookie('user_id', $result['id'], time() * 2, '/');
+                setcookie('loggedIn', true, time() * 2, '/');
+                setcookie('cookie', true, time() * 2, '/');
 
                 // Temporary solution.
                 // @todo: A more robust solution required in v: 1.0.2

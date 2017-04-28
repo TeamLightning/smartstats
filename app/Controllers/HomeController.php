@@ -5,41 +5,47 @@ namespace App\Controllers;
 class HomeController extends Controller
 {
     /**
-     * @param $req
-     * @param $res
-     * @param $args
-     * @return mixed
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function index($req, $res, $args)
     {
-        return $this->view->render($res, 'home.twig');
+        return $this->view($res, 'home');
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function login($req, $res, $args)
     {
-        return $this->view->render($res, 'auth/login.twig');
+        return $this->view($res, 'auth/login');
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function signup($req, $res, $args)
     {
-        return $this->view->render($res, 'auth/signup.twig');
+        return $this->view($res, 'auth/signup');
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
-     * @return mixed
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getlogin($req, $res, $args)
     {
@@ -47,13 +53,29 @@ class HomeController extends Controller
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
-     * @return mixed
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getsignup($req, $res, $args)
     {
         return $this->SignUpHandler->auth($req, $res, $args);
+    }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function wake($req, $res, $args)
+    {
+        return $this->view($res, 'auth/cookie', [
+            'last' => date('d-M-Y H:i:s', $_COOKIE['last-visit']),
+            'username' => $_COOKIE['username'],
+        ]);
     }
 }

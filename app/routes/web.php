@@ -8,6 +8,7 @@ $app->group('/auth', function() use ($container) {
     $this->get('/logout', function ($req, $res, $args) {
         session_destroy();
         unset($_SESSION);
+        $_SESSION = null;
         return $res->withHeader('Location', '/');
     })->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('auth.logout');
@@ -17,6 +18,9 @@ $app->group('/auth', function() use ($container) {
     $this->get('/signup', 'HomeController:signup')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.signup');
+    $this->get('/wake', 'HomeController:wake')
+        ->add(new \App\Middlewares\CookieMiddleware($container))
+        ->setName('auth.cookie');
 
     $this->post('/login', 'HomeController:getlogin')
         ->add(new \App\Middlewares\GuestMiddleware($container))
@@ -24,6 +28,9 @@ $app->group('/auth', function() use ($container) {
     $this->post('/signup', 'HomeController:getsignup')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.signup.post');
+    $this->post('/wake', 'CookieHandler:login')
+        ->add(new \App\Middlewares\CookieMiddleware($container))
+        ->setName('auth.cookie.post');
 });
 
 $app->group('/user', function () use ($container) {
