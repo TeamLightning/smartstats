@@ -38,7 +38,12 @@ class UserController extends Controller
      */
     public function home($req, $res, $args)
     {
-        return $this->view($res, 'user/home');
+        return $this->view($res, 'user/home', [
+            'username' => $_SESSION['username'],
+            'created_at' => $_SESSION['created_at'],
+            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'c1' => 'active',
+        ]);
     }
 
     /**
@@ -50,6 +55,14 @@ class UserController extends Controller
      */
     public function create($req, $res, $args)
     {
+        $check = $this->container->db->select('servers', 'id', ['user' => $_SESSION['user_id']]);
+
+        if (count($check) == 1) {
+            return $res->withHeader('Location', $this->container->router->pathFor('user.show', [
+                'message' => 'You\'ve already created a server',
+            ]));
+        }
+
         $data = $req->getParsedBody();
         $v = new v;
 
@@ -61,7 +74,11 @@ class UserController extends Controller
 
         if ($v->fails()) {
             return $this->view($res, 'user/create', [
-                'validation' => $v->errors()
+                'validation' => $v->errors(),
+                'username' => $_SESSION['username'],
+                'created_at' => $_SESSION['created_at'],
+                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                'c3' => 'active'
             ]);
         } else {
             $this->db->insert('servers', [
@@ -72,7 +89,11 @@ class UserController extends Controller
             ]);
 
             return $this->view($res, 'user/create', [
-                'message' => 'Added server'
+                'message' => 'Added server',
+                'username' => $_SESSION['username'],
+                'created_at' => $_SESSION['created_at'],
+                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                'c3' => 'active'
             ]);
         }
     }
@@ -92,33 +113,47 @@ class UserController extends Controller
 
         if (count($data) == 0) {
             return $this->view($res, 'user/show', [
-                'error' => 'Oops, you have no server configured in the database'
+                'error' => 'Oops, you have no server configured in the database. Create a server by going to <a href="/user/create">create server page</a>',
+                'username' => $_SESSION['username'],
+                'created_at' => $_SESSION['created_at'],
+                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                'c2' => 'active'
             ]);
         }
 
         foreach ($data as $row) {
-            $status = @fsockopen($row['ip'], $data['port'], $errno, $errstr, 0.2);
-
-            if ($status) {
+            if (@fsockopen($row['ip'], $row['port'], $errno, $errstr, 0.2)) {
                 return $this->view($res, 'user/show', [
                     'name' => $row['name'],
                     'ip' => $row['ip'],
                     'port' => $row['port'],
-                    'status' => '<i class="fa fa-signal text-green"></i>&nbsp;Online',
+                    'online' => 'Online',
+                    'username' => $_SESSION['username'],
+                    'created_at' => $_SESSION['created_at'],
+                    'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                    'c2' => 'active'
                 ]);
             } else {
                 return $this->view($res, 'user/show', [
                     'name' => $row['name'],
                     'ip' => $row['ip'],
                     'port' => $row['port'],
-                    'status' => '<i class="fa fa-signal text-red"></i>&nbsp;Offline',
+                    'offline' => 'Offline',
+                    'username' => $_SESSION['username'],
+                    'created_at' => $_SESSION['created_at'],
+                    'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                    'c2' => 'active'
                 ]);
             }
         }
 
         // Will not happen. But I want to stop my IDE saying `return statement is missing`
         return $this->view($res, 'user/show', [
-            'error' => 'Something really bad had happened'
+            'error' => 'Something really bad had happened',
+            'username' => $_SESSION['username'],
+            'created_at' => $_SESSION['created_at'],
+            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'c2' => 'active'
         ]);
     }
 
@@ -131,6 +166,11 @@ class UserController extends Controller
      */
     public function showCreate($req, $res, $args)
     {
-        return $this->view($res, 'user/create', []);
+        return $this->view($res, 'user/create', [
+            'username' => $_SESSION['username'],
+            'created_at' => $_SESSION['created_at'],
+            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'c2' => 'active'
+        ]);
     }
 }

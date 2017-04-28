@@ -1,0 +1,190 @@
+{% extends 'user/templates/partials/header.twig' %}
+
+{% block c2 %}active{% endblock %}
+
+{% block title %}Smart Stats | Show status{% endblock %}
+
+{% block header %}
+    <h1>Server status
+        <small>Show the status of the server</small>
+    </h1>
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ base_url() }}/user/home">Dashboard</a></li>
+        <li class="active">Show server</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    {% if error %}
+        <div class="callout callout-danger">
+            <h4>Wack!! You have an error</h4>
+            <p>{{ error|raw }}</p>
+        </div>
+    {% endif %}
+    {% if online %}
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="glyphicon glyphicon-align-left"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">NAME</span>
+                        <span class="info-box-number">{{ name }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="glyphicon glyphicon-signal"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">STATUS</span>
+                        <span class="info-box-number">Online</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="glyphicon glyphicon-hdd"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">IP Address</span>
+                        <span class="info-box-number">{{ ip }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="glyphicon glyphicon-wrench"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">PORT</span>
+                        <span class="info-box-number">{{ port }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="box box-success box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ name }} - Online</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>PORT</th>
+                        <th>IP</th>
+                        <th>STATUS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ port }}</td>
+                        <td>{{ ip }}</td>
+                        <td>Online</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if offline %}
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="glyphicon glyphicon-align-left"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">NAME</span>
+                        <span class="info-box-number">{{ name }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="glyphicon glyphicon-wrench"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">PORT</span>
+                        <span class="info-box-number">{{ port }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="glyphicon glyphicon-hdd"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">IP Adress</span>
+                        <span class="info-box-number">{{ ip }}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="glyphicon glyphicon-signal"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">STATUS</span>
+                        <span class="info-box-number">Offline</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div class="box box-danger box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ name }} - Offline</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>PORT</th>
+                        <th>IP</th>
+                        <th>STATUS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ port }}</td>
+                        <td>{{ ip }}</td>
+                        <td>Offline</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

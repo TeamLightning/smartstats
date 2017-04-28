@@ -80,32 +80,38 @@
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="21" parent="8" name="users_id_uindex">
+    <column id="21" parent="8" name="created_at">
+      <Position>5</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <index id="22" parent="8" name="users_id_uindex">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="22" parent="8" name="users_username_uindex">
+    <index id="23" parent="8" name="users_username_uindex">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="23" parent="8" name="users_password_uindex">
+    <index id="24" parent="8" name="users_password_uindex">
       <ColNames>password</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="24" parent="8" name="PRIMARY">
+    <key id="25" parent="8" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="25" parent="8" name="users_id_uindex">
+    <key id="26" parent="8" name="users_id_uindex">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>users_id_uindex</UnderlyingIndexName>
     </key>
-    <key id="26" parent="8" name="users_username_uindex">
+    <key id="27" parent="8" name="users_username_uindex">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>users_username_uindex</UnderlyingIndexName>
     </key>
-    <key id="27" parent="8" name="users_password_uindex">
+    <key id="28" parent="8" name="users_password_uindex">
       <ColNames>password</ColNames>
       <UnderlyingIndexName>users_password_uindex</UnderlyingIndexName>
     </key>

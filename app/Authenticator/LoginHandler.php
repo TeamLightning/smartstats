@@ -95,8 +95,10 @@ class LoginHandler extends Auth
                 $_SESSION['username'] = $result['username'];
                 $_SESSION['account'] = $result['account'];
                 $_SESSION['user_id'] = $result['id'];
+                $_SESSION['created_at'] = date('d-M-Y H:i:s', $result['created_at']);
                 $_SESSION['loggedIn'] = TRUE;
 
+                setcookie('created_at', date('d-M-Y H:i:s', $result['created_at']), time() * 2);
                 setcookie('username', $result['username'], time() * 2, '/');
                 setcookie('account', $result['account'], time() * 2, '/');
                 setcookie('user_id', $result['id'], time() * 2, '/');

@@ -1,1 +1,61 @@
-Hello, this is dashboard yet to be build
+{% extends 'user/templates/partials/header.twig' %}
+
+{% block c1 %}active{% endblock %}
+
+{% block title %}Smart Stats | Homepage{% endblock %}
+
+{% block header %}
+    <h1>Home Page
+        <small>Welcome to Smart Stats, the page for your needs</small>
+    </h1>
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Smart Stats - Server status reporter</h3>
+        </div>
+        <div class="box-body">
+            <p>Introducing the all new <b>Smart Stats</b> that is faster, cleaner and safer. It has many backend
+                improvements and also introduced some improvements on the client side too. We have squished and fixed
+                all
+                the noisy bugs and hacks found here and there too.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li>New design layout</li>
+                <li>Simple server status report.</li>
+                <li>Fixed bug that makes the script wait if the IP or PORT is invalid</li>
+                <li>Added many security measure</li>
+                <li>Users can now lock their account instead of signing out. Same like sleep in computers</li>
+            </ul>
+
+            <h3>Future features</h3>
+            <ul>
+                <li>Multiple server checking facility</li>
+                <li>More server slots for premium accounts</li>
+                <li>Integration with UCS API for premium user</li>
+                <li>Better backend system</li>
+            </ul>
+
+            <h3>As always, we are open source</h3>
+            <p>We have made this script Open Source but without API services because we wanted that version to be
+                hosted on our server as SaaS. You can get the whole script without the API integration service by <a
+                        href="https://github.com/smarthacksop/smartstats">clicking here</a></p>
+
+            <h3>Have any ideas? trouble? or anything?</h3>
+            <p>You are always free to contact us anytime you want. Just go to the contact page by navigating through
+                the navigational bar and reach us out. If you have any security issues found, then please email it to
+                <a href="mailto:security@smarthacksinc.com">security@smarthacksinc.com</a> instead of making an issue at
+                the github issue tracker.
+            </p>
+        </div>
+    </div>
+{% endblock %}

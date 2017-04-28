@@ -63,11 +63,11 @@ $app->group('/user', function () use ($container) {
     $this->get('/show', 'UserController:show')
         ->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('user.show');
-    $this->get('/create', 'UserController:create')
+    $this->get('/create', 'UserController:showCreate')
         ->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('user.create');
 
-    $this->post('/create', 'UserController:showCreate')
+    $this->post('/create', 'UserController:create')
         ->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('user.create.post');
 });

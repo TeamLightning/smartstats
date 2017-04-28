@@ -100,7 +100,8 @@ class SignUpHandler extends Auth
         $this->db()->insert('users', [
             'username' => htmlspecialchars($data['username']),
             'password' => password_hash($data['password'], PASSWORD_BCRYPT),
-            'account'  => 0,
+            'account' => 0,
+            'created_at' => time(),
         ]);
 
         return $this->view($res, 'auth/login', [
