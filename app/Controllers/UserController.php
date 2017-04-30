@@ -58,18 +58,22 @@ class UserController extends Controller
         $check = $this->container->db->select('servers', 'id', ['user' => $_SESSION['user_id']]);
 
         if (count($check) == 1) {
-            return $res->withHeader('Location', $this->container->router->pathFor('user.show', [
-                'message' => 'You\'ve already created a server',
-            ]));
+            return $this->view($res, 'user/create', [
+                'error' => 'You\'ve already created a server',
+                'username' => $_SESSION['username'],
+                'created_at' => $_SESSION['created_at'],
+                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                'c3' => 'active'
+            ]);
         }
 
         $data = $req->getParsedBody();
         $v = new v;
 
         $v->validate([
-            'ip|IPAddress' => [$data['ip'], 'ip|required|min(10)|max(20)'],
+            'ip|IPAddress' => [$data['ip'], 'ip|required'],
             'port|Port' => [$data['port'], 'required|min(2)|max(5)'],
-            'name|Server Name' => [$data['name'], 'required|alnumDash|min(5)|max(40)']
+            'name|Server Name' => [$data['name'], 'required|min(5)|max(40)']
         ]);
 
         if ($v->fails()) {
@@ -170,7 +174,19 @@ class UserController extends Controller
             'username' => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
             'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
-            'c2' => 'active'
+            'c3' => 'active'
         ]);
+    }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function contact($req, $res, $args)
+    {
+        return $this->view($res, 'user/contact');
     }
 }

@@ -91,6 +91,7 @@ class CookieHandler extends Auth
                 $_SESSION['username'] = $_COOKIE['username'];
                 $_SESSION['account'] = $_COOKIE['account'];
                 $_SESSION['user_id'] = $_COOKIE['user_id'];
+                $_SESSION['created_at'] = $_COOKIE['created_at'];
                 $_SESSION['loggedIn'] = TRUE;
 
                 return $res->withHeader('Location', $this->container->router->pathFor('user.home'));

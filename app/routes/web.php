@@ -56,18 +56,18 @@ $app->group('/auth', function() use ($container) {
         ->setName('auth.cookie.post');
 });
 
-$app->group('/user', function () use ($container) {
+$app->group('/user', function () {
     $this->get('/home', 'UserController:home')
-        ->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('user.home');
     $this->get('/show', 'UserController:show')
-        ->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('user.show');
     $this->get('/create', 'UserController:showCreate')
-        ->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('user.create');
+    $this->get('/contact', 'UserController:contact')
+        ->setName('user.contact');
 
     $this->post('/create', 'UserController:create')
-        ->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('user.create.post');
-});
+    $this->post('/contact', 'UserController:getContact')
+        ->setName('user.contact.post');
+})->add(new \App\Middlewares\UserMiddleware($container));

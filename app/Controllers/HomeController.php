@@ -97,7 +97,6 @@ class HomeController extends Controller
     public function wake($req, $res, $args)
     {
         return $this->view($res, 'auth/cookie', [
-            'last' => date('d-M-Y H:i:s', $_COOKIE['last-visit']),
             'username' => $_COOKIE['username'],
         ]);
     }
