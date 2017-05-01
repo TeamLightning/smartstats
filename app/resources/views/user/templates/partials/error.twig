@@ -1,0 +1,20 @@
+{% if error %}
+    <div class="callout callout-danger">
+        <h4>Wack!! We have an error</h4>
+        <p>{{ error|raw }}</p>
+    </div>
+{% endif %}
+
+{% if message %}
+    <div class="callout callout-success">
+        <h4>Hmm, you have a message!</h4>
+        <p>{{ message|raw }}</p>
+    </div>
+{% endif %}
+
+{% if validation %}
+    <div class="callout callout-danger">
+        <h4>Oops, you have an error!</h4>
+        <p>Validation needs to be implemented yet</p>
+    </div>
+{% endif %}

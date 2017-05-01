@@ -1,0 +1,64 @@
+{#
++-----------------------------------------------------+
+| BEWARE!! THIS TEMPLATE IS STILL UNDER CONSTRUCTION. |
++-----------------------------------------------------+
+|                                                     |
+| ACTUALLY, WE WILL BE USING AN A.P.I. TO GET THE     |
+| CURRENT LOCATION OF THE USER AND DISPLAY IT HERE.   |
+| WE HAVE SO MUCH OF LOGIC TO PUT AT THE SCRIPT.      |
+|                                                     |
+|                    --------------                   |
+|                                                     |
+| AS THIS IS JUST AN ADDITIONAL FEATURE, WE NOW NEED  |
+| TO CONCENTRATE ON THE USER EXPERIANCE AND EVERYTHING|
+| ELSE BEFORE GETTING OUR HANDS DIRTY ON THIS JOB.    |
+|                                                     |
++-----------------------------------------------------+
+#}
+
+
+{% extends 'user/templates/partials/header.twig' %}
+
+{% block title %}Smart Stats | Account{% endblock %}
+
+{% block header %}
+    <h1>
+        Account information
+        <small>All information about yourself</small>
+    </h1>
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ base_url() }}/user/home">Dashboard</a></li>
+        <li class="active">Here</li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <div class="box box-success">
+        <div class="box-header">
+            <h3 class="box-title">Account info</h3>
+        </div>
+        <div class="box-body">
+            <table class="table table-responsive">
+                <tr>
+                    <th>Username</th>
+                    <td>{{ username }}</td>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <td>{{ location }}</td>
+                </tr>
+                <tr>
+                    <th>About me</th>
+                    {% if about %}
+                        <td>{{ about }}</td>
+                    {% else %}
+                        <td>About me is not yet filled</td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

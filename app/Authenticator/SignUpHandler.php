@@ -1,22 +1,46 @@
 <?php
+/**
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 xXAlphaManXx
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 namespace App\Authenticator;
 
-use Violin\Violin as v;
-
 class SignUpHandler extends Auth
 {
+    /**
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
+     */
     public function auth($req, $res, $next)
     {
-        if($this->loggedIn()) {
-            return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
-        }
-
         $data = $req->getParsedBody();
-        $v = new v;
+        $v = new \Violin\Violin;
 
         if($data['password'] !== $data['password_r']){
-            return $this->container->view->render($res, 'auth/signup.twig', [
+            return $this->view($res, 'auth/signup', [
                 'error' => 'The passwords didn\'t match',
             ]);
         }
@@ -28,7 +52,7 @@ class SignUpHandler extends Auth
         ]);
 
         if($v->fails()) {
-            return $this->container->view->render($res, 'auth/signup.twig', [
+            return $this->view($res, 'auth/signup', [
                 'validation' => $v->errors(),
             ]);
         } else {
@@ -37,20 +61,22 @@ class SignUpHandler extends Auth
     }
 
     /**
-     * @param array                                     $data   Gets the POST data from the server
-     * @param \Psr\Http\Message\ServerRequestInterface  $req    Binds the PSR-7 request object.
-     * @param \Psr\Http\Message\ResponseInterface       $res    Binds the PSR-7 response object.
-     * @param array                                     $next   Gets all the parameters passed.
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
-     * @return \Psr\Http\Message\ResponseInterface|mixed
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     private function checkUsername($data, $req, $res, $next)
     {
-        $result = count($this->container->db->select('users', '*', ['username' => $data['username']]));
+        $result = count($this->db->select('users', 'id', [
+            'username' => $data['username']
+        ]));
 
         switch ($result) {
             case 1:
-                return $this->container->view->render($res, 'auth/signup.twig', [
+                return $this->view($res, 'auth/signup', [
                     'error' => 'The username already exist in our database'
                 ]);
                 break;
@@ -60,39 +86,31 @@ class SignUpHandler extends Auth
                 break;
 
             default:
-                return $this->container->view->render($res, 'auth/signup.twig', [
+                return $this->view($res, 'auth/signup', [
                     'error' => 'Oops, something really bad had happened in our system',
                 ]);
         }
     }
 
     /**
-     * @param array                                     $data   Gets the POST data from the server
-     * @param \Psr\Http\Message\ServerRequestInterface  $req    Binds the PSR-7 request object.
-     * @param \Psr\Http\Message\ResponseInterface       $res    Binds the PSR-7 response object.
-     * @param array                                     $next   Gets all the parameters passed.
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
-     * @return \Psr\Http\Message\ResponseInterface|mixed
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     private function signUp($data, $req, $res, $next)
     {
-        $this->container->db->insert('users', [
+        $this->db->insert('users', [
             'username' => htmlspecialchars($data['username']),
             'password' => password_hash($data['password'], PASSWORD_BCRYPT),
-            'account'  => 0,
+            'account' => 0,
+            'created_at' => time(),
         ]);
 
-        return $this->container->view->render($res, 'auth/login.twig', [
+        return $this->view($res, 'auth/login', [
             'message' => 'Account had been created successfully. Login now',
         ]);
-    }
-
-    private function loggedIn()
-    {
-        if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === TRUE) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
     }
 }

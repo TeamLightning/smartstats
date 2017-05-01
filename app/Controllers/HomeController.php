@@ -1,45 +1,74 @@
 <?php
+/**
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2017 xXAlphaManXx
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 namespace App\Controllers;
 
 class HomeController extends Controller
 {
     /**
-     * @param $req
-     * @param $res
-     * @param $args
-     * @return mixed
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function index($req, $res, $args)
     {
-        return $this->view->render($res, 'home.twig');
+        return $this->view($res, 'home');
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function login($req, $res, $args)
     {
-        return $this->view->render($res, 'auth/login.twig');
+        return $this->view($res, 'auth/login');
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function signup($req, $res, $args)
     {
-        return $this->view->render($res, 'auth/signup.twig');
+        return $this->view($res, 'auth/signup');
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
-     * @return mixed
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getlogin($req, $res, $args)
     {
@@ -47,13 +76,28 @@ class HomeController extends Controller
     }
 
     /**
-     * @param $req
-     * @param $res
-     * @param $args
-     * @return mixed
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getsignup($req, $res, $args)
     {
         return $this->SignUpHandler->auth($req, $res, $args);
+    }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function wake($req, $res, $args)
+    {
+        return $this->view($res, 'auth/cookie', [
+            'username' => $_COOKIE['username'],
+        ]);
     }
 }

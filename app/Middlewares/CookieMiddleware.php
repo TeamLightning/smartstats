@@ -26,16 +26,20 @@
 namespace App\Middlewares;
 
 
-class UserMiddleware extends Middleware
+class CookieMiddleware extends Middleware
 {
     public function __invoke(\Psr\Http\Message\RequestInterface $req,
                              \Psr\Http\Message\ResponseInterface $res, $next)
     {
-        if($this->loggedIn()) {
-            $res = $next($req, $res);
-            return $res;
+        if ($this->loggedIn()) {
+            return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
         } else {
-            return $res->withHeader('Location', $this->container->router->pathFor('index'));
+            if ($this->cookieSet()) {
+                $res = $next($req, $res);
+                return $res;
+            } else {
+                return $res->withHeader('Location', $this->container->router->pathFor('index'));
+            }
         }
     }
 }
