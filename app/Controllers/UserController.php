@@ -216,4 +216,37 @@ class UserController extends Controller
 
         return $res->withHeader('Location', $this->container->router->pathFor('user.show'));
     }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
+     */
+    public function test($req, $res, $args)
+    {
+        $data = $this->db->select('servers', '*', ['user' => $_SESSION['user_id']]);
+        $value = [];
+
+        foreach ($data as $row) {
+            if (@fsockopen($row['ip'], $row['port'], $errno, $errstr, 0.2)) {
+                $value[$row['id']] = [
+                    'name' => $row['name'],
+                    'port' => $row['port'],
+                    'ip' => $row['ip'],
+                    'status' => 'Online'
+                ];
+            } else {
+                $value[$row['id']] = [
+                    'name' => $row['name'],
+                    'port' => $row['port'],
+                    'ip' => $row['ip'],
+                    'status' => 'Offline'
+                ];
+            }
+        }
+
+        return $res->withJson($value);
+    }
 }
