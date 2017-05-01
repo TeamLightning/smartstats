@@ -29,15 +29,15 @@ namespace App\Authenticator;
 class CookieHandler extends Auth
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface $req
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function login($req, $res, $args)
     {
-        // Security check. Will not happen because it is taken care by Middleware. But what if some one set cookie
+        // SECURITY CHECK: Will not happen because it is taken care by Middleware. But what if some one sets the cookie
         // manually?
         if ($this->loggedIn()) {
             return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
@@ -67,14 +67,14 @@ class CookieHandler extends Auth
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param array $data
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response array $data
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     private function okay($res, $data)
     {
-        $results = $this->db()->select('users', [
+        $results = $this->db->select('users', [
             'password'
         ], [
             'username' => $_COOKIE['username']

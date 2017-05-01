@@ -34,12 +34,18 @@ class Auth
     protected $container;
 
     /**
+     * @var \Medoo\Medoo $db
+     */
+    protected $db;
+
+    /**
      * Auth constructor.
      * @param \Slim\Container $container
      */
     public function __construct($container)
     {
         $this->container = $container;
+        $this->db = $container->db;
     }
 
 

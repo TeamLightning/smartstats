@@ -33,12 +33,18 @@ class Controller
     protected $container;
 
     /**
+     * @var \Medoo\Medoo $db
+     */
+    protected $db;
+
+    /**
      * Controller constructor.
-     * @param $container
+     * @param \Slim\Container $container
      */
     public function __construct($container)
     {
         $this->container = $container;
+        $this->db = $container->db;
     }
 
     /**
@@ -55,11 +61,11 @@ class Controller
     }
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface|\SLim\Http\Response $res
      * @param string $template
      * @param array $args
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\SLim\Http\Response
      */
     public function view($res, $template, $args = [])
     {

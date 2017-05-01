@@ -25,14 +25,19 @@
 
 namespace App\Authenticator;
 
-use Violin\Violin as v;
-
 class SignUpHandler extends Auth
 {
+    /**
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
+     */
     public function auth($req, $res, $next)
     {
         $data = $req->getParsedBody();
-        $v = new v;
+        $v = new \Violin\Violin;
 
         if($data['password'] !== $data['password_r']){
             return $this->view($res, 'auth/signup', [
@@ -56,16 +61,16 @@ class SignUpHandler extends Auth
     }
 
     /**
-     * @param array                                     $data   Gets the POST data from the server
-     * @param \Psr\Http\Message\ServerRequestInterface  $req    Binds the PSR-7 request object.
-     * @param \Psr\Http\Message\ResponseInterface       $res    Binds the PSR-7 response object.
-     * @param array                                     $next   Gets all the parameters passed.
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
-     * @return \Psr\Http\Message\ResponseInterface|mixed
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     private function checkUsername($data, $req, $res, $next)
     {
-        $result = count($this->db()->select('users', '*', [
+        $result = count($this->db->select('users', 'id', [
             'username' => $data['username']
         ]));
 
@@ -88,16 +93,16 @@ class SignUpHandler extends Auth
     }
 
     /**
-     * @param array                                     $data   Gets the POST data from the server
-     * @param \Psr\Http\Message\ServerRequestInterface  $req    Binds the PSR-7 request object.
-     * @param \Psr\Http\Message\ResponseInterface       $res    Binds the PSR-7 response object.
-     * @param array                                     $next   Gets all the parameters passed.
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
-     * @return \Psr\Http\Message\ResponseInterface|mixed
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     private function signUp($data, $req, $res, $next)
     {
-        $this->db()->insert('users', [
+        $this->db->insert('users', [
             'username' => htmlspecialchars($data['username']),
             'password' => password_hash($data['password'], PASSWORD_BCRYPT),
             'account' => 0,

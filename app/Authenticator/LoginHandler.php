@@ -31,11 +31,11 @@ use Violin\Violin as v;
 class LoginHandler extends Auth
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface       $req
-     * @param \Psr\Http\Message\ResponseInterface      $res
-     * @param \Psr\Http\Message\ResponseInterface      $next
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function login($req, $res, $next)
     {
@@ -57,7 +57,7 @@ class LoginHandler extends Auth
             ]);
         } else {
 
-            $result = $this->container->db->select('users', '*', [
+            $result = $this->db->select('users', 'id', [
                 'username' => $data['username'],
             ]);
 
@@ -79,16 +79,16 @@ class LoginHandler extends Auth
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface array $data
-     * @param \Psr\Http\Message\RequestInterface       $req
-     * @param \Psr\Http\Message\ResponseInterface      $res
-     * @param \Psr\Http\Message\ResponseInterface      $next
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     private function authenticate($data, $req, $res, $next)
     {
-        $results = $this->container->db->select('users', '*', ['username' => $data['username']]);
+        $results = $this->db->select('users', '*', ['username' => $data['username']]);
 
         foreach ($results as $result) {
             if (password_verify($data['password'], $result['password'])) {

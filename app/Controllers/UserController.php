@@ -30,11 +30,11 @@ use Violin\Violin as v;
 class UserController extends Controller
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface $req
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function home($req, $res, $args)
     {
@@ -47,15 +47,15 @@ class UserController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $req
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Medoo\Medoo
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function create($req, $res, $args)
     {
-        $check = $this->container->db->select('servers', 'id', ['user' => $_SESSION['user_id']]);
+        $check = $this->db->select('servers', 'id', ['user' => $_SESSION['user_id']]);
 
         if (count($check) == 1) {
             return $this->view($res, 'user/create', [
@@ -103,15 +103,15 @@ class UserController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $req
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
-     * @return \Psr\Http\Message\ResponseInterface|\Medoo\Medoo
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function show($req, $res, $args)
     {
-        $data = $this->db->select('servers', '*', [
+        $data = $this->db->select('servers', ['name', 'ip', 'port'], [
             'user' => $_SESSION['user_id']
         ]);
 
@@ -164,11 +164,11 @@ class UserController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $req
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function showCreate($req, $res, $args)
     {
@@ -181,11 +181,11 @@ class UserController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $req
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function contact($req, $res, $args)
     {
@@ -198,11 +198,11 @@ class UserController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $req
-     * @param \Psr\Http\Message\ResponseInterface $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
     public function delete($req, $res, $args)
     {
