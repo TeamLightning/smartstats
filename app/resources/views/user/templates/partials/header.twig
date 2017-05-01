@@ -29,16 +29,15 @@
     <title>{% block title %}{% endblock %}</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Grouped links. Includes Bootstrap, FontAwesome, IonIcons -->
-    {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/g/bootstrap@3.3.7(css/bootstrap.min.css),fontawesome@4.7.0,ionicons@2.0.1">#}
-    <link rel="stylesheet" href="{{ base_url() }}/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Grouped links. Includes Bootstrap, FontAwesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ base_url() }}/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="{{ base_url() }}/dist/css/skins/skin-blue.min.css">
-    {#<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
     <script src="https://cdn.jsdelivr.net/g/html5shiv@3.7.3,respond@1.4.2"></script>
-    <![endif]-->#}
+    <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
