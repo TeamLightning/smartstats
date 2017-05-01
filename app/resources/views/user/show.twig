@@ -19,6 +19,19 @@
 
 {% block content %}
     {% include 'user/templates/partials/error.twig' %}
+    <div class="box box-primary">
+        <div class="box-body">
+            <h3>Accurate status</h3>
+            <p>The website checks for the status of the server as soon as you visit this page. So the status
+                displayed here is 100% accurate. You can also visit <a href="http://yougetsignal
+                .com/">YouGetSignal</a> to check whether the server is up or down</p>
+            <hr>
+            <h3>Page keeps on loading?</h3>
+            <p>If, in case this happens, then it is either becuase the IP you entered is wrong or the PORT you
+                entered is wrong. Delete this server and try again. If this happens again. Then please contact the
+                system admin by <a href="{{ base_url() }}/user/create">this form</a></p>
+        </div>
+    </div>
     {% if online %}
         <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -86,6 +99,7 @@
                         <th>PORT</th>
                         <th>IP</th>
                         <th>STATUS</th>
+                        <th>ACTION</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -94,6 +108,7 @@
                         <td>{{ port }}</td>
                         <td>{{ ip }}</td>
                         <td>Online</td>
+                        <td><a class="btn btn-danger" href="{{ base_url() }}/user/delete/{{ id }}">Delete</a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -168,6 +183,7 @@
                         <th>PORT</th>
                         <th>IP</th>
                         <th>STATUS</th>
+                        <th>ACTIONS</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -176,6 +192,7 @@
                         <td>{{ port }}</td>
                         <td>{{ ip }}</td>
                         <td>Offline</td>
+                        <td><a class="btn btn-danger" href="{{ base_url() }}/user/delete/{{ id }}">Delete</a></td>
                     </tr>
                     </tbody>
                 </table>

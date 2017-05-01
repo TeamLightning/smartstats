@@ -57,7 +57,7 @@
         Enter your password to retrieve your session
     </div>
     <div class="text-center">
-        <a href="{{ base_url() }}">Or sign in as a different user</a>
+        <a onclick="abortSuspend()">Or sign in as a different user</a>
     </div>
     <div class="lockscreen-footer text-center">
         Copyright &copy; 2017 <b><a href="https://smarthacksinc.com/" class="text-black">Smart Hacks Inc.</a></b><br>
@@ -70,5 +70,12 @@
 <script src="{{ base_url() }}/dist/js/jQuery.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{ base_url() }}/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function abortSuspend() {
+        alert("Oops, this is not yet implemented. \nYou can clean your cookies and then login with a different " +
+            "account. Sorry for this inconvenience.\nWe will be adding this feature soon as we find a way to work " +
+            "this out clearly");
+    }
+</script>
 </body>
 </html>

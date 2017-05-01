@@ -65,6 +65,8 @@ $app->group('/user', function () {
         ->setName('user.create');
     $this->get('/contact', 'UserController:contact')
         ->setName('user.contact');
+    $this->get('/delete/{id}', 'UserController:delete')
+        ->setName('user.delete');
 
     $this->post('/create', 'UserController:create')
         ->setName('user.create.post');

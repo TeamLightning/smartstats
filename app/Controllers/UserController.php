@@ -135,7 +135,8 @@ class UserController extends Controller
                     'username' => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
                     'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
-                    'c2' => 'active'
+                    'c2' => 'active',
+                    'id' => $row['id'],
                 ]);
             } else {
                 return $this->view($res, 'user/show', [
@@ -146,6 +147,7 @@ class UserController extends Controller
                     'username' => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
                     'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                    'id' => $row['id'],
                     'c2' => 'active'
                 ]);
             }
@@ -187,6 +189,31 @@ class UserController extends Controller
      */
     public function contact($req, $res, $args)
     {
-        return $this->view($res, 'user/contact');
+        return $this->view($res, 'user/contact', [
+            'username' => $_SESSION['username'],
+            'created_at' => $_SESSION['created_at'],
+            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'c4' => 'active'
+        ]);
+    }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface $req
+     * @param \Psr\Http\Message\ResponseInterface $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function delete($req, $res, $args)
+    {
+        if ($_COOKIE['username'] === $_SESSION['username']) {
+            $this->db->delete('servers', [
+                'id' => htmlspecialchars($args['id'])
+            ]);
+
+            return $res->withHeader('Location', $this->container->router->pathFor('user.create'));
+        }
+
+        return $res->withHeader('Location', $this->container->router->pathFor('user.show'));
     }
 }
