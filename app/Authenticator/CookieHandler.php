@@ -88,11 +88,12 @@ class CookieHandler extends Auth
 
         foreach ($results as $row) {
             if (password_verify($data['password'], $row['password'])) {
-                $_SESSION['username'] = $_COOKIE['username'];
-                $_SESSION['account'] = $_COOKIE['account'];
-                $_SESSION['user_id'] = $_COOKIE['user_id'];
+                $_SESSION['username']   = $_COOKIE['username'];
+                $_SESSION['account']    = $_COOKIE['account'];
+                $_SESSION['user_id']    = $_COOKIE['user_id'];
                 $_SESSION['created_at'] = $_COOKIE['created_at'];
-                $_SESSION['loggedIn'] = TRUE;
+                $_SESSION['type']       = $_COOKIE['type'];
+                $_SESSION['loggedIn']   = TRUE;
 
                 return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
             } else {
