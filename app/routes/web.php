@@ -44,6 +44,8 @@ $app->group('/auth', function() use ($container) {
     $this->get('/wake', 'HomeController:wake')
         ->add(new \App\Middlewares\CookieMiddleware($container))
         ->setName('auth.cookie');
+    $this->get('/new', 'HomeController:new')
+        ->setName('auth.new');
 
     $this->post('/login', 'HomeController:getlogin')
         ->add(new \App\Middlewares\GuestMiddleware($container))
@@ -67,8 +69,6 @@ $app->group('/user', function () {
         ->setName('user.contact');
     $this->get('/delete/{id}', 'UserController:delete')
         ->setName('user.delete');
-    $this->get('/test', 'UserController:test')
-        ->setName('user.test');
 
     $this->post('/create', 'UserController:create')
         ->setName('user.create.post');

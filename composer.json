@@ -18,9 +18,7 @@
     "alexgarrett/violin": "^2.2",
     "ext-mbstring": "*",
     "ext-gd": "*",
-    "ext-curl": "*",
-    "ext-mysql": "*",
-    "ext-sqlite": "*"
+    "ext-curl": "*"
   },
   "autoload": {
     "psr-4":{

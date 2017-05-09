@@ -100,4 +100,29 @@ class HomeController extends Controller
             'username' => $_COOKIE['username'],
         ]);
     }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param \Psr\Http\Message\ResponseInterface $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function new($req, $res, $args)
+    {
+        if (isset($_SERVER['HTTP_COOKIE'])) {
+            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+            foreach($cookies as $cookie) {
+                $parts = explode('=', $cookie);
+                $name = trim($parts[0]);
+                setcookie($name, '', time()-1000);
+                setcookie($name, '', time()-1000, '/');
+            }
+
+            return $res->withHeader('Location', $this->container->router->pathFor('index'));
+        }
+
+        // Will not happen, but still, My IDE irritates me with error message
+        return $res->withHeader('Location', $this->container->router->pathFor('index'));
+    }
 }

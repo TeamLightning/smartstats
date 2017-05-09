@@ -29,6 +29,8 @@ use Violin\Violin as v;
 
 class UserController extends Controller
 {
+    private $id, $name, $ip, $port, $user;
+
     /**
      * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
@@ -55,50 +57,32 @@ class UserController extends Controller
      */
     public function create($req, $res, $args)
     {
-        $check = $this->db->select('servers', 'id', ['user' => $_SESSION['user_id']]);
-
-        if (count($check) == 1) {
-            return $this->view($res, 'user/create', [
-                'error' => 'You\'ve already created a server',
-                'username' => $_SESSION['username'],
-                'created_at' => $_SESSION['created_at'],
-                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
-                'c3' => 'active'
-            ]);
-        }
-
         $data = $req->getParsedBody();
-        $v = new v;
 
-        $v->validate([
-            'ip|IPAddress' => [$data['ip'], 'ip|required'],
-            'port|Port' => [$data['port'], 'required|min(2)|max(5)'],
-            'name|Server Name' => [$data['name'], 'required|min(5)|max(40)']
-        ]);
-
-        if ($v->fails()) {
-            return $this->view($res, 'user/create', [
-                'validation' => $v->errors(),
-                'username' => $_SESSION['username'],
-                'created_at' => $_SESSION['created_at'],
-                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
-                'c3' => 'active'
-            ]);
+        if ($_SESSION['type'] === 1 || $_SESSION['type'] === 2) {
+            $this->createServer($res, $data);
         } else {
-            $this->db->insert('servers', [
-                'user' => $_SESSION['user_id'],
-                'name' => $data['name'],
-                'port' => $data['port'],
-                'ip' => $data['ip']
-            ]);
+            $count = count($this->db->select('servers', 'id', ['user_id' => $_SESSION['user_id']]));
 
-            return $this->view($res, 'user/create', [
-                'message' => 'Added server',
-                'username' => $_SESSION['username'],
-                'created_at' => $_SESSION['created_at'],
-                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
-                'c3' => 'active'
-            ]);
+            if ($count < 2) {
+                $this->createServer($res, $data);
+            } elseif ($count == 2) {
+                return $this->view($res, 'user/create', [
+                    'message'    => 'Oops, you\'ve already added 2 servers. Upgrade your account or delete servers',
+                    'username'   => $_SESSION['username'],
+                    'created_at' => $_SESSION['created_at'],
+                    'account'    => $_SESSION['account'],
+                    'c3'         => 'active'
+                ]);
+            } else {
+                return $this->view($res, 'user/create', [
+                    'message'    => 'Something really bad had happened',
+                    'username'   => $_SESSION['username'],
+                    'created_at' => $_SESSION['created_at'],
+                    'account'    => $_SESSION['account'],
+                    'c3'         => 'active'
+                ]);
+            }
         }
     }
 
@@ -218,35 +202,44 @@ class UserController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
+     * @param array                                                   $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
-    public function test($req, $res, $args)
+    public function createServer($res, $data)
     {
-        $data = $this->db->select('servers', '*', ['user' => $_SESSION['user_id']]);
-        $value = [];
+        $v = new v;
 
-        foreach ($data as $row) {
-            if (@fsockopen($row['ip'], $row['port'], $errno, $errstr, 0.2)) {
-                $value[$row['id']] = [
-                    'name' => $row['name'],
-                    'port' => $row['port'],
-                    'ip' => $row['ip'],
-                    'status' => 'Online'
-                ];
-            } else {
-                $value[$row['id']] = [
-                    'name' => $row['name'],
-                    'port' => $row['port'],
-                    'ip' => $row['ip'],
-                    'status' => 'Offline'
-                ];
-            }
+        $v->validate([
+            'ip|IPAddress' => [$data['ip'], 'ip|required'],
+            'port|Port' => [$data['port'], 'required|min(2)|max(10)|int'],
+            'name|Server Name' => [$data['name'], 'required|min(5)|max(40)']
+        ]);
+
+        if ($v->fails()) {
+            return $this->view($res, 'user/create', [
+                'validation' => $v->errors(),
+                'username'   => $_SESSION['username'],
+                'created_at' => $_SESSION['created_at'],
+                'account'    => $_SESSION['account'],
+                'c3'         => 'active'
+            ]);
+        } else {
+            $this->db->insert('servers', [
+                'user' => $_SESSION['user_id'],
+                'name' => $data['name'],
+                'port' => $data['port'],
+                'ip' => $data['ip']
+            ]);
+
+            return $this->view($res, 'user/create', [
+                'message' => 'Added server',
+                'username' => $_SESSION['username'],
+                'created_at' => $_SESSION['created_at'],
+                'account' => $_SESSION['account'],
+                'c3' => 'active'
+            ]);
         }
-
-        return $res->withJson($value);
     }
 }
