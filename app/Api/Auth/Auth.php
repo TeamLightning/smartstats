@@ -51,15 +51,6 @@ class Auth
         $this->db = $this->container->db;
     }
 
-    public function cookieSet()
-    {
-        if (isset($_COOKIE['cookie']) && $_COOKIE['cookie'] === true) {
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * @param array $data
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
@@ -69,5 +60,29 @@ class Auth
     public function sendJson(array $data, $res)
     {
         return $res->withJson($data);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function cookieSet()
+    {
+        if (isset($_COOKIE['cookie']) && $_COOKIE['cookie'] === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function loggedIn()
+    {
+        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === TRUE) {
+            return true;
+        }
+
+        return false;
     }
 }

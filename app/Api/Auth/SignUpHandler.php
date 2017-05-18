@@ -29,7 +29,7 @@ namespace App\Api\Auth;
 class SignUpHandler extends Auth
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
@@ -46,7 +46,8 @@ class SignUpHandler extends Auth
 
         $v->validate([
             'username|Username' => [$data['username'], 'required|alnumDash|min(5)|max(20)'],
-            'password|Password' => [$data['password'], 'required']
+            'password|Password' => [$data['password'], 'required|alnumDash|min(6)|max(100)'],
+            'password_r|Password Repeat' => [$data['password_r'], 'required|alnumDash|min(6)|max(100)'],
         ]);
 
         if($v->fails()) {
@@ -55,6 +56,23 @@ class SignUpHandler extends Auth
             ], $res);
         }
 
-        $result = $this->db->select('users', '*', ['username' => $data['username']]);
+        $check = $this->db->select('users', 'id', ['username' => $data['username']]);
+
+        if(count($check)) {
+            return $this->sendJson([
+                'error' => 'The username already exists'
+            ], $res);
+        }
+
+        $this->db->insert('users', [
+            'username'   => htmlspecialchars($data['username']),
+            'password'   => password_hash($data['password'], PASSWORD_BCRYPT),
+            'account'    => 0,
+            'created_at' => time(),
+        ]);
+
+        return $this->sendJson([
+            'message' => 'Account created successfully. Login to get access',
+        ], $res);
     }
 }

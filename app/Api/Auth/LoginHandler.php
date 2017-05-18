@@ -82,10 +82,10 @@ class LoginHandler extends Auth
                 setcookie('cookie', true, time() * 2, '/');
 
                 if ($row['account'] === 1) {
-                    $_SESSION['account'] = 'PRO User';
+                    $_SESSION['account'] = 'Pro User';
                     $_SESSION['type']    = 1;
 
-                    setcookie('account', 'PRO User', time() * 2, '/');
+                    setcookie('account', 'Pro User', time() * 2, '/');
                     setcookie('type', 1, time() * 2, '/');
                 } elseif ($row['account'] === 2) {
                     $_SESSION['account'] = 'Admin User';
@@ -94,10 +94,10 @@ class LoginHandler extends Auth
                     setcookie('account', 'Admin User', time() * 2, '/');
                     setcookie('type', 2, time() * 2, '/');
                 } else {
-                    $_SESSION['account'] = 'FREE User';
+                    $_SESSION['account'] = 'Free User';
                     $_SESSION['type']    = 0;
 
-                    setcookie('account', 'FREE User', time() * 2, '/');
+                    setcookie('account', 'Free User', time() * 2, '/');
                     setcookie('type', 0, time() * 2, '/');
                 }
 
