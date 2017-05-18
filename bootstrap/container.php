@@ -59,3 +59,7 @@ $container['SignUpHandler'] = function ($container) {
 $container['CookieHandler'] = function ($container) {
     return new \App\Authenticator\CookieHandler($container);
 };
+
+$container['ApiController'] = function ($container) {
+    return new \App\Controllers\ApiController($container);
+};

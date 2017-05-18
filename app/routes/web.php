@@ -75,3 +75,7 @@ $app->group('/user', function () {
     $this->post('/contact', 'UserController:getContact')
         ->setName('user.contact.post');
 })->add(new \App\Middlewares\UserMiddleware($container));
+
+$app->group('/api', function() use ($container) {
+    
+});
