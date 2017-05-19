@@ -190,10 +190,12 @@ class UserController extends Controller
     {
         if ($_COOKIE['username'] === $_SESSION['username']) {
 
-            // WTF? THIS CAN BE HACKED EASILY. I AM AN IDIOT.
+            // Fixed a security issue here, thanks to my brain and eye :P
 
             $this->db->delete('servers', [
-                'id' => htmlspecialchars($args['id'])
+                'user' => $_SESSION['user_id'],
+                'id'   => $args['id'],
+
             ]);
 
             return $res->withHeader('Location', $this->container->router->pathFor('user.create'));
