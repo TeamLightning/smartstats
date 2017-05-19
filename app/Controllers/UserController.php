@@ -29,8 +29,6 @@ use Violin\Violin as v;
 
 class UserController extends Controller
 {
-    private $id, $name, $ip, $port, $user;
-
     /**
      * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
@@ -43,7 +41,7 @@ class UserController extends Controller
         return $this->view($res, 'user/home', [
             'username' => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'account' => $_SESSION['account'],
             'c1' => 'active',
         ]);
     }
@@ -104,7 +102,7 @@ class UserController extends Controller
                 'error' => 'Oops, you have no server configured in the database. Create a server by going to <a href="/user/create">create server page</a>',
                 'username' => $_SESSION['username'],
                 'created_at' => $_SESSION['created_at'],
-                'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                'account' => $_SESSION['account'],
                 'c2' => 'active'
             ]);
         }
@@ -118,7 +116,7 @@ class UserController extends Controller
                     'online' => 'Online',
                     'username' => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                    'account' => $_SESSION['account'],
                     'c2' => 'active',
                     'id' => $row['id'],
                 ]);
@@ -130,7 +128,7 @@ class UserController extends Controller
                     'offline' => 'Offline',
                     'username' => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+                    'account' => $_SESSION['account'],
                     'id' => $row['id'],
                     'c2' => 'active'
                 ]);
@@ -142,7 +140,7 @@ class UserController extends Controller
             'error' => 'Something really bad had happened',
             'username' => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'account' => $_SESSION['account'],
             'c2' => 'active'
         ]);
     }
@@ -159,7 +157,7 @@ class UserController extends Controller
         return $this->view($res, 'user/create', [
             'username' => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'account' => $_SESSION['account'],
             'c3' => 'active'
         ]);
     }
@@ -176,7 +174,7 @@ class UserController extends Controller
         return $this->view($res, 'user/contact', [
             'username' => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => ($_SESSION['account'] === 1) ? 'Admin user' : 'Free user',
+            'account' => $_SESSION['account'],
             'c4' => 'active'
         ]);
     }
@@ -191,6 +189,9 @@ class UserController extends Controller
     public function delete($req, $res, $args)
     {
         if ($_COOKIE['username'] === $_SESSION['username']) {
+
+            // WTF? THIS CAN BE HACKED EASILY. I AM AN IDIOT.
+
             $this->db->delete('servers', [
                 'id' => htmlspecialchars($args['id'])
             ]);
