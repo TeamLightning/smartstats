@@ -66,19 +66,19 @@ class UserController extends Controller
                 $this->createServer($res, $data);
             } elseif ($count == 2) {
                 return $this->view($res, 'user/create', [
-                    'message'    => 'Oops, you\'ve already added 2 servers. Upgrade your account or delete servers',
-                    'username'   => $_SESSION['username'],
+                    'message' => 'Oops, you\'ve already added 2 servers. Upgrade your account or delete servers',
+                    'username' => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account'    => $_SESSION['account'],
-                    'c3'         => 'active'
+                    'account' => $_SESSION['account'],
+                    'c3' => 'active'
                 ]);
             } else {
                 return $this->view($res, 'user/create', [
-                    'message'    => 'Something really bad had happened',
-                    'username'   => $_SESSION['username'],
+                    'message' => 'Something really bad had happened',
+                    'username' => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account'    => $_SESSION['account'],
-                    'c3'         => 'active'
+                    'account' => $_SESSION['account'],
+                    'c3' => 'active'
                 ]);
             }
         }
@@ -188,25 +188,18 @@ class UserController extends Controller
      */
     public function delete($req, $res, $args)
     {
-        if ($_COOKIE['username'] === $_SESSION['username']) {
+        $this->db->delete('servers', [
+            'user' => $_SESSION['user_id'],
+            'id' => $args['id'],
 
-            // Fixed a security issue here, thanks to my brain and eye :P
+        ]);
 
-            $this->db->delete('servers', [
-                'user' => $_SESSION['user_id'],
-                'id'   => $args['id'],
-
-            ]);
-
-            return $res->withHeader('Location', $this->container->router->pathFor('user.create'));
-        }
-
-        return $res->withHeader('Location', $this->container->router->pathFor('user.show'));
+        return $res->withHeader('Location', $this->container->router->pathFor('user.create'));
     }
 
     /**
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param array                                                   $data
+     * @param array $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
@@ -223,10 +216,10 @@ class UserController extends Controller
         if ($v->fails()) {
             return $this->view($res, 'user/create', [
                 'validation' => $v->errors(),
-                'username'   => $_SESSION['username'],
+                'username' => $_SESSION['username'],
                 'created_at' => $_SESSION['created_at'],
-                'account'    => $_SESSION['account'],
-                'c3'         => 'active'
+                'account' => $_SESSION['account'],
+                'c3' => 'active'
             ]);
         } else {
             $this->db->insert('servers', [

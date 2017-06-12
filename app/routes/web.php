@@ -23,59 +23,51 @@
  * THE SOFTWARE.
  */
 
-$app->get('/', 'HomeController:index')
+use App\Controllers\HomeController;
+use App\Controllers\UserController;
+
+$app->get('/', HomeController::class . ':index')
     ->add(new \App\Middlewares\GuestMiddleware($container))
     ->setName('index');
 
-$app->group('/auth', function() use ($container) {
+$app->group('/auth', function () use ($container) {
     $this->get('/logout', function ($req, $res, $args) {
         session_destroy();
         unset($_SESSION);
         $_SESSION = null;
+
         return $res->withHeader('Location', '/');
     })->add(new \App\Middlewares\UserMiddleware($container))
         ->setName('auth.logout');
-    $this->get('/login', 'HomeController:login')
+    $this->get('/login', HomeController::class . ':login')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.login');
-    $this->get('/signup', 'HomeController:signup')
+    $this->get('/signup', HomeController::class . ':signup')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.signup');
-    $this->get('/wake', 'HomeController:wake')
-        ->add(new \App\Middlewares\CookieMiddleware($container))
-        ->setName('auth.cookie');
-    $this->get('/new', 'HomeController:new')
-        ->setName('auth.new');
 
-    $this->post('/login', 'HomeController:getlogin')
+    $this->post('/login', HomeController::class . ':getlogin')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.login.post');
-    $this->post('/signup', 'HomeController:getsignup')
+    $this->post('/signup', HomeController::class . ':getsignup')
         ->add(new \App\Middlewares\GuestMiddleware($container))
         ->setName('auth.signup.post');
-    $this->post('/wake', 'CookieHandler:login')
-        ->add(new \App\Middlewares\CookieMiddleware($container))
-        ->setName('auth.cookie.post');
 });
 
 $app->group('/user', function () {
-    $this->get('/home', 'UserController:home')
+    $this->get('/home', UserController::class . ':home')
         ->setName('user.home');
-    $this->get('/show', 'UserController:show')
+    $this->get('/show', UserController::class . ':show')
         ->setName('user.show');
-    $this->get('/create', 'UserController:showCreate')
+    $this->get('/create', UserController::class . ':showCreate')
         ->setName('user.create');
-    $this->get('/contact', 'UserController:contact')
+    $this->get('/contact', UserController::class . ':contact')
         ->setName('user.contact');
-    $this->get('/delete/{id}', 'UserController:delete')
+    $this->get('/delete/{id}', UserController::class . ':delete')
         ->setName('user.delete');
 
-    $this->post('/create', 'UserController:create')
+    $this->post('/create', UserController::class . ':create')
         ->setName('user.create.post');
-    $this->post('/contact', 'UserController:getContact')
+    $this->post('/contact', UserController::class . ':getContact')
         ->setName('user.contact.post');
 })->add(new \App\Middlewares\UserMiddleware($container));
-
-$app->group('/api', function() use ($container) {
-    
-});

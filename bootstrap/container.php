@@ -39,27 +39,3 @@ $container['view'] = function ($container) {
 $container['db'] = function ($container) {
     return new \Medoo\Medoo($container['settings']['db']);
 };
-
-$container['HomeController'] = function ($container) {
-    return new \App\Controllers\HomeController($container);
-};
-
-$container['UserController'] = function ($container) {
-    return new \App\Controllers\UserController($container);
-};
-
-$container['LoginHandler'] = function ($container) {
-    return new \App\Authenticator\LoginHandler($container);
-};
-
-$container['SignUpHandler'] = function ($container) {
-    return new \App\Authenticator\SignUpHandler($container);
-};
-
-$container['CookieHandler'] = function ($container) {
-    return new \App\Authenticator\CookieHandler($container);
-};
-
-$container['ApiController'] = function ($container) {
-    return new \App\Controllers\ApiController($container);
-};

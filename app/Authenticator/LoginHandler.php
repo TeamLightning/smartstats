@@ -97,30 +97,15 @@ class LoginHandler extends Auth
                 $_SESSION['created_at'] = date('d-M-Y H:i:s', $result['created_at']);
                 $_SESSION['loggedIn']   = TRUE;
 
-                setcookie('created_at', date('d-M-Y H:i:s', $result['created_at']), time() * 2);
-                setcookie('username', $result['username'], time() * 2, '/');
-                setcookie('user_id', $result['id'], time() * 2, '/');
-                setcookie('loggedIn', true, time() * 2, '/');
-                setcookie('cookie', true, time() * 2, '/');
-
                 if ($result['account'] === 1) {
                     $_SESSION['account'] = 'PRO User';
                     $_SESSION['type']    = 1;
-
-                    setcookie('account', 'PRO User', time() * 2, '/');
-                    setcookie('type', 1, time() * 2, '/');
                 } elseif ($result['account'] === 2) {
                     $_SESSION['account'] = 'Admin User';
                     $_SESSION['type']    = 2;
-
-                    setcookie('account', 'Admin User', time() * 2, '/');
-                    setcookie('type', 2, time() * 2, '/');
                 } else {
                     $_SESSION['account'] = 'FREE User';
                     $_SESSION['type']    = 0;
-
-                    setcookie('account', 'FREE User', time() * 2, '/');
-                    setcookie('type', 0, time() * 2, '/');
                 }
 
                 return $this->view($res, 'temp');

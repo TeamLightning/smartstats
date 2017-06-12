@@ -25,11 +25,18 @@
 
 namespace App\Middlewares;
 
+use Psr\Http\Message\RequestInterface as Req;
+use Psr\Http\Message\ResponseInterface as Res;
 
 class UserMiddleware extends Middleware
 {
-    public function __invoke(\Psr\Http\Message\RequestInterface $req,
-                             \Psr\Http\Message\ResponseInterface $res, $next)
+    /**
+     * @param Req $req
+     * @param Res $res
+     * @param $next
+     * @return Res|static
+     */
+    public function __invoke(Req $req, Res $res, $next)
     {
         if($this->loggedIn()) {
             $res = $next($req, $res);

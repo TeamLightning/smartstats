@@ -25,6 +25,8 @@
 
 namespace App\Authenticator;
 
+use Violin\Violin as v;
+
 class SignUpHandler extends Auth
 {
     /**
@@ -37,7 +39,7 @@ class SignUpHandler extends Auth
     public function auth($req, $res, $next)
     {
         $data = $req->getParsedBody();
-        $v = new \Violin\Violin;
+        $v = new v;
 
         if($data['password'] !== $data['password_r']){
             return $this->view($res, 'auth/signup', [
