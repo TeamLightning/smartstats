@@ -31,7 +31,7 @@ use Violin\Violin as v;
 class LoginHandler extends Auth
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
@@ -51,7 +51,7 @@ class LoginHandler extends Auth
             'password|Password' => [$data['password'], 'required|alnumDash|min(6)|max(100)'],
         ]);
 
-        if($v->fails()) {
+        if ($v->fails()) {
             return $this->view($res, 'auth/login', [
                 'validation' => $v->errors(),
             ]);
@@ -79,8 +79,8 @@ class LoginHandler extends Auth
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
@@ -92,20 +92,20 @@ class LoginHandler extends Auth
 
         foreach ($results as $result) {
             if (password_verify($data['password'], $result['password'])) {
-                $_SESSION['username']   = $result['username'];
-                $_SESSION['user_id']    = $result['id'];
+                $_SESSION['username'] = $result['username'];
+                $_SESSION['user_id'] = $result['id'];
                 $_SESSION['created_at'] = date('d-M-Y H:i:s', $result['created_at']);
-                $_SESSION['loggedIn']   = TRUE;
+                $_SESSION['loggedIn'] = true;
 
                 if ($result['account'] === 1) {
                     $_SESSION['account'] = 'PRO User';
-                    $_SESSION['type']    = 1;
+                    $_SESSION['type'] = 1;
                 } elseif ($result['account'] === 2) {
                     $_SESSION['account'] = 'Admin User';
-                    $_SESSION['type']    = 2;
+                    $_SESSION['type'] = 2;
                 } else {
                     $_SESSION['account'] = 'FREE User';
-                    $_SESSION['type']    = 0;
+                    $_SESSION['type'] = 0;
                 }
 
                 return $this->view($res, 'temp');

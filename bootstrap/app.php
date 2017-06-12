@@ -23,13 +23,13 @@
  * THE SOFTWARE.
  */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $app = new \Slim\App([
-    'settings'  => [
+    'settings' => [
         'displayErrorDetails' => true,
 
-        'db'    => [
+        'db' => [
             'database_name' => 'stats',
             'database_type' => 'mysql',
             'server'        => 'localhost',

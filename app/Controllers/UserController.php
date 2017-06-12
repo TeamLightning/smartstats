@@ -30,7 +30,7 @@ use Violin\Violin as v;
 class UserController extends Controller
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
@@ -39,15 +39,15 @@ class UserController extends Controller
     public function home($req, $res, $args)
     {
         return $this->view($res, 'user/home', [
-            'username' => $_SESSION['username'],
+            'username'   => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => $_SESSION['account'],
-            'c1' => 'active',
+            'account'    => $_SESSION['account'],
+            'c1'         => 'active',
         ]);
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
@@ -66,26 +66,26 @@ class UserController extends Controller
                 $this->createServer($res, $data);
             } elseif ($count == 2) {
                 return $this->view($res, 'user/create', [
-                    'message' => 'Oops, you\'ve already added 2 servers. Upgrade your account or delete servers',
-                    'username' => $_SESSION['username'],
+                    'message'    => 'Oops, you\'ve already added 2 servers. Upgrade your account or delete servers',
+                    'username'   => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account' => $_SESSION['account'],
-                    'c3' => 'active'
+                    'account'    => $_SESSION['account'],
+                    'c3'         => 'active',
                 ]);
             } else {
                 return $this->view($res, 'user/create', [
-                    'message' => 'Something really bad had happened',
-                    'username' => $_SESSION['username'],
+                    'message'    => 'Something really bad had happened',
+                    'username'   => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account' => $_SESSION['account'],
-                    'c3' => 'active'
+                    'account'    => $_SESSION['account'],
+                    'c3'         => 'active',
                 ]);
             }
         }
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
@@ -94,59 +94,59 @@ class UserController extends Controller
     public function show($req, $res, $args)
     {
         $data = $this->db->select('servers', ['name', 'ip', 'port'], [
-            'user' => $_SESSION['user_id']
+            'user' => $_SESSION['user_id'],
         ]);
 
         if (count($data) == 0) {
             return $this->view($res, 'user/show', [
-                'error' => 'Oops, you have no server configured in the database. Create a server by going to <a href="/user/create">create server page</a>',
-                'username' => $_SESSION['username'],
+                'error'      => 'Oops, you have no server configured in the database. Create a server by going to <a href="/user/create">create server page</a>',
+                'username'   => $_SESSION['username'],
                 'created_at' => $_SESSION['created_at'],
-                'account' => $_SESSION['account'],
-                'c2' => 'active'
+                'account'    => $_SESSION['account'],
+                'c2'         => 'active',
             ]);
         }
 
         foreach ($data as $row) {
             if (@fsockopen($row['ip'], $row['port'], $errno, $errstr, 0.2)) {
                 return $this->view($res, 'user/show', [
-                    'name' => $row['name'],
-                    'ip' => $row['ip'],
-                    'port' => $row['port'],
-                    'online' => 'Online',
-                    'username' => $_SESSION['username'],
+                    'name'       => $row['name'],
+                    'ip'         => $row['ip'],
+                    'port'       => $row['port'],
+                    'online'     => 'Online',
+                    'username'   => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account' => $_SESSION['account'],
-                    'c2' => 'active',
-                    'id' => $row['id'],
+                    'account'    => $_SESSION['account'],
+                    'c2'         => 'active',
+                    'id'         => $row['id'],
                 ]);
             } else {
                 return $this->view($res, 'user/show', [
-                    'name' => $row['name'],
-                    'ip' => $row['ip'],
-                    'port' => $row['port'],
-                    'offline' => 'Offline',
-                    'username' => $_SESSION['username'],
+                    'name'       => $row['name'],
+                    'ip'         => $row['ip'],
+                    'port'       => $row['port'],
+                    'offline'    => 'Offline',
+                    'username'   => $_SESSION['username'],
                     'created_at' => $_SESSION['created_at'],
-                    'account' => $_SESSION['account'],
-                    'id' => $row['id'],
-                    'c2' => 'active'
+                    'account'    => $_SESSION['account'],
+                    'id'         => $row['id'],
+                    'c2'         => 'active',
                 ]);
             }
         }
 
         // Will not happen. But I want to stop my IDE saying `return statement is missing`
         return $this->view($res, 'user/show', [
-            'error' => 'Something really bad had happened',
-            'username' => $_SESSION['username'],
+            'error'      => 'Something really bad had happened',
+            'username'   => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => $_SESSION['account'],
-            'c2' => 'active'
+            'account'    => $_SESSION['account'],
+            'c2'         => 'active',
         ]);
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
@@ -155,15 +155,15 @@ class UserController extends Controller
     public function showCreate($req, $res, $args)
     {
         return $this->view($res, 'user/create', [
-            'username' => $_SESSION['username'],
+            'username'   => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => $_SESSION['account'],
-            'c3' => 'active'
+            'account'    => $_SESSION['account'],
+            'c3'         => 'active',
         ]);
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
@@ -172,15 +172,15 @@ class UserController extends Controller
     public function contact($req, $res, $args)
     {
         return $this->view($res, 'user/contact', [
-            'username' => $_SESSION['username'],
+            'username'   => $_SESSION['username'],
             'created_at' => $_SESSION['created_at'],
-            'account' => $_SESSION['account'],
-            'c4' => 'active'
+            'account'    => $_SESSION['account'],
+            'c4'         => 'active',
         ]);
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
      *
@@ -190,7 +190,7 @@ class UserController extends Controller
     {
         $this->db->delete('servers', [
             'user' => $_SESSION['user_id'],
-            'id' => $args['id'],
+            'id'   => $args['id'],
 
         ]);
 
@@ -199,7 +199,7 @@ class UserController extends Controller
 
     /**
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param array $data
+     * @param array                                                   $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
@@ -208,33 +208,33 @@ class UserController extends Controller
         $v = new v;
 
         $v->validate([
-            'ip|IPAddress' => [$data['ip'], 'ip|required'],
-            'port|Port' => [$data['port'], 'required|min(2)|max(10)|int'],
-            'name|Server Name' => [$data['name'], 'required|min(5)|max(40)']
+            'ip|IPAddress'     => [$data['ip'], 'ip|required'],
+            'port|Port'        => [$data['port'], 'required|min(2)|max(10)|int'],
+            'name|Server Name' => [$data['name'], 'required|min(5)|max(40)'],
         ]);
 
         if ($v->fails()) {
             return $this->view($res, 'user/create', [
                 'validation' => $v->errors(),
-                'username' => $_SESSION['username'],
+                'username'   => $_SESSION['username'],
                 'created_at' => $_SESSION['created_at'],
-                'account' => $_SESSION['account'],
-                'c3' => 'active'
+                'account'    => $_SESSION['account'],
+                'c3'         => 'active',
             ]);
         } else {
             $this->db->insert('servers', [
                 'user' => $_SESSION['user_id'],
                 'name' => $data['name'],
                 'port' => $data['port'],
-                'ip' => $data['ip']
+                'ip'   => $data['ip'],
             ]);
 
             return $this->view($res, 'user/create', [
-                'message' => 'Added server',
-                'username' => $_SESSION['username'],
+                'message'    => 'Added server',
+                'username'   => $_SESSION['username'],
                 'created_at' => $_SESSION['created_at'],
-                'account' => $_SESSION['account'],
-                'c3' => 'active'
+                'account'    => $_SESSION['account'],
+                'c3'         => 'active',
             ]);
         }
     }

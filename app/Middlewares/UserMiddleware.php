@@ -33,13 +33,15 @@ class UserMiddleware extends Middleware
     /**
      * @param Req $req
      * @param Res $res
-     * @param $next
+     * @param     $next
+     *
      * @return Res|static
      */
     public function __invoke(Req $req, Res $res, $next)
     {
-        if($this->loggedIn()) {
+        if ($this->loggedIn()) {
             $res = $next($req, $res);
+
             return $res;
         } else {
             return $res->withHeader('Location', $this->container->router->pathFor('index'));

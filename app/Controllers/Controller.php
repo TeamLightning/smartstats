@@ -39,6 +39,7 @@ class Controller
 
     /**
      * Controller constructor.
+     *
      * @param \Slim\Container $container
      */
     public function __construct($container)
@@ -49,6 +50,7 @@ class Controller
 
     /**
      * @param $property
+     *
      * @return mixed|null
      */
     public function __get($property)
@@ -62,8 +64,8 @@ class Controller
 
     /**
      * @param \Psr\Http\Message\ResponseInterface|\SLim\Http\Response $res
-     * @param string $template
-     * @param array $args
+     * @param string                                                  $template
+     * @param array                                                   $args
      *
      * @return \Psr\Http\Message\ResponseInterface|\SLim\Http\Response
      */

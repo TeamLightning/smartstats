@@ -28,9 +28,9 @@ namespace App\Controllers;
 class HomeController extends Controller
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\ResponseInterface                     $args
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -40,9 +40,9 @@ class HomeController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\ResponseInterface                     $args
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -52,9 +52,9 @@ class HomeController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\ResponseInterface                     $args
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -64,9 +64,9 @@ class HomeController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\ResponseInterface                     $args
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -76,9 +76,9 @@ class HomeController extends Controller
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
-     * @param \Psr\Http\Message\ResponseInterface $args
+     * @param \Psr\Http\Message\ResponseInterface                     $args
      *
      * @return \Psr\Http\Message\ResponseInterface
      */

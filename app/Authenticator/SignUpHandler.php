@@ -30,7 +30,7 @@ use Violin\Violin as v;
 class SignUpHandler extends Auth
 {
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
@@ -41,7 +41,7 @@ class SignUpHandler extends Auth
         $data = $req->getParsedBody();
         $v = new v;
 
-        if($data['password'] !== $data['password_r']){
+        if ($data['password'] !== $data['password_r']) {
             return $this->view($res, 'auth/signup', [
                 'error' => 'The passwords didn\'t match',
             ]);
@@ -53,7 +53,7 @@ class SignUpHandler extends Auth
             'password_r|Password Repeat' => [$data['password_r'], 'required|alnumDash|min(5)|max(100)'],
         ]);
 
-        if($v->fails()) {
+        if ($v->fails()) {
             return $this->view($res, 'auth/signup', [
                 'validation' => $v->errors(),
             ]);
@@ -63,8 +63,8 @@ class SignUpHandler extends Auth
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
@@ -73,13 +73,13 @@ class SignUpHandler extends Auth
     private function checkUsername($data, $req, $res, $next)
     {
         $result = count($this->db->select('users', 'id', [
-            'username' => $data['username']
+            'username' => $data['username'],
         ]));
 
         switch ($result) {
             case 1:
                 return $this->view($res, 'auth/signup', [
-                    'error' => 'The username already exist in our database'
+                    'error' => 'The username already exist in our database',
                 ]);
                 break;
 
@@ -95,8 +95,8 @@ class SignUpHandler extends Auth
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $data
-     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request $req
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $data
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $next
      *
@@ -105,9 +105,9 @@ class SignUpHandler extends Auth
     private function signUp($data, $req, $res, $next)
     {
         $this->db->insert('users', [
-            'username' => htmlspecialchars($data['username']),
-            'password' => password_hash($data['password'], PASSWORD_BCRYPT),
-            'account' => 0,
+            'username'   => htmlspecialchars($data['username']),
+            'password'   => password_hash($data['password'], PASSWORD_BCRYPT),
+            'account'    => 0,
             'created_at' => time(),
         ]);
 

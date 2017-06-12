@@ -34,6 +34,7 @@ class Middleware
 
     /**
      * Middleware constructor.
+     *
      * @param \Slim\Container $container
      */
     public function __construct($container)
@@ -46,10 +47,10 @@ class Middleware
      */
     protected function loggedIn()
     {
-        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === TRUE) {
-            return TRUE;
+        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 

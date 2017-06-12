@@ -33,7 +33,8 @@ class GuestMiddleware extends Middleware
     /**
      * @param Req $req
      * @param Res $res
-     * @param $next
+     * @param     $next
+     *
      * @return Res|static
      */
     public function __invoke(Req $req, Res $res, $next)
@@ -42,6 +43,7 @@ class GuestMiddleware extends Middleware
             return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
         } else {
             $res = $next($req, $res);
+
             return $res;
         }
     }

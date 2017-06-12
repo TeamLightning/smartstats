@@ -24,7 +24,7 @@
  */
 
 $container['view'] = function ($container) {
-    $view = new \Slim\Views\Twig(__DIR__.'/../app/resources/views', [
+    $view = new \Slim\Views\Twig(__DIR__ . '/../app/resources/views', [
         //'cache' => __DIR__ . '/../storage/cache/views'
     ]);
 
