@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../app/resources/views', [
         //'cache' => __DIR__ . '/../storage/cache/views'
@@ -38,4 +40,24 @@ $container['view'] = function ($container) {
 
 $container['db'] = function ($container) {
     return new \Medoo\Medoo($container['settings']['db']);
+};
+
+$container['eloquet'] = function ($container) {
+    $capsule = new Capsule;
+
+    $capsule->addConnection([
+        'driver'    => $container['settings']['db']['database_type'],
+        'host'      => $container['settings']['db']['server'],
+        'database'  => $container['settings']['db']['name'],
+        'username'  => $container['settings']['db']['username'],
+        'password'  => $container['settings']['db']['password'],
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+    ]);
+
+    $capsule->setAsGlobal();
+    $capsule->bootEloquent();
+
+    return $capsule;
 };

@@ -14,11 +14,9 @@
     "php": ">=7",
     "slim/slim": "3.8.1",
     "slim/twig-view": "2.2.0",
-    "catfan/medoo": "v1.2.1",
+    "catfan/medoo": "v1.4.*",
     "alexgarrett/violin": "^2.2",
-    "ext-mbstring": "*",
-    "ext-gd": "*",
-    "ext-curl": "*"
+    "illuminate/database": "^5.4"
   },
   "autoload": {
     "psr-4":{
