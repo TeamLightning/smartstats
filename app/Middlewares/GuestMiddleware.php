@@ -25,22 +25,19 @@
 
 namespace App\Middlewares;
 
-use Psr\Http\Message\RequestInterface as Req;
-use Psr\Http\Message\ResponseInterface as Res;
-
 class GuestMiddleware extends Middleware
 {
     /**
-     * @param Req $req
-     * @param Res $res
-     * @param     $next
+     * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
+     * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
+     * @param                                                         $next
      *
-     * @return Res|static
+     * @return \Psr\Http\Message\ResponseInterface|\Slim\Http\Response
      */
-    public function __invoke(Req $req, Res $res, $next)
+    public function __invoke($req, $res, $next)
     {
         if ($this->loggedIn()) {
-            return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
+            return $res->withRedirect($this->container->router->pathFor('user.home'));
         }
 
         $res = $next($req, $res);

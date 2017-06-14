@@ -185,7 +185,7 @@ class UserController extends Controller
 
         ]);
 
-        return $res->withHeader('Location', $this->container->router->pathFor('user.create'));
+        return $res->withRedirect($this->container->router->pathFor('user.create'));
     }
 
     /**
