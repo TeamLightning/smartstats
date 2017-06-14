@@ -120,29 +120,20 @@ class UserController extends Controller
                     'c2'         => 'active',
                     'id'         => $row['id'],
                 ]);
-            } else {
-                return $this->view($res, 'user/show', [
-                    'name'       => $row['name'],
-                    'ip'         => $row['ip'],
-                    'port'       => $row['port'],
-                    'offline'    => 'Offline',
-                    'username'   => $_SESSION['username'],
-                    'created_at' => $_SESSION['created_at'],
-                    'account'    => $_SESSION['account'],
-                    'id'         => $row['id'],
-                    'c2'         => 'active',
-                ]);
             }
-        }
 
-        // Will not happen. But I want to stop my IDE saying `return statement is missing`
-        return $this->view($res, 'user/show', [
-            'error'      => 'Something really bad had happened',
-            'username'   => $_SESSION['username'],
-            'created_at' => $_SESSION['created_at'],
-            'account'    => $_SESSION['account'],
-            'c2'         => 'active',
-        ]);
+            return $this->view($res, 'user/show', [
+                'name'       => $row['name'],
+                'ip'         => $row['ip'],
+                'port'       => $row['port'],
+                'offline'    => 'Offline',
+                'username'   => $_SESSION['username'],
+                'created_at' => $_SESSION['created_at'],
+                'account'    => $_SESSION['account'],
+                'id'         => $row['id'],
+                'c2'         => 'active',
+            ]);
+        }
     }
 
     /**
@@ -221,21 +212,22 @@ class UserController extends Controller
                 'account'    => $_SESSION['account'],
                 'c3'         => 'active',
             ]);
-        } else {
-            $this->db->insert('servers', [
-                'user' => $_SESSION['user_id'],
-                'name' => $data['name'],
-                'port' => $data['port'],
-                'ip'   => $data['ip'],
-            ]);
-
-            return $this->view($res, 'user/create', [
-                'message'    => 'Added server',
-                'username'   => $_SESSION['username'],
-                'created_at' => $_SESSION['created_at'],
-                'account'    => $_SESSION['account'],
-                'c3'         => 'active',
-            ]);
         }
+
+        $this->db->insert('servers', [
+            'user' => $_SESSION['user_id'],
+            'name' => $data['name'],
+            'port' => $data['port'],
+            'ip'   => $data['ip'],
+        ]);
+
+        return $this->view($res, 'user/create', [
+            'message'    => 'Added server',
+            'username'   => $_SESSION['username'],
+            'created_at' => $_SESSION['created_at'],
+            'account'    => $_SESSION['account'],
+            'c3'         => 'active',
+        ]);
+
     }
 }

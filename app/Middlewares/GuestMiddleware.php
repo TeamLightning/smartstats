@@ -41,10 +41,10 @@ class GuestMiddleware extends Middleware
     {
         if ($this->loggedIn()) {
             return $res->withHeader('Location', $this->container->router->pathFor('user.home'));
-        } else {
-            $res = $next($req, $res);
-
-            return $res;
         }
+
+        $res = $next($req, $res);
+
+        return $res;
     }
 }

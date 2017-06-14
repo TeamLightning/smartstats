@@ -41,16 +41,10 @@ class SignUpHandler extends Auth
         $data = $req->getParsedBody();
         $v = new v;
 
-        if ($data['password'] !== $data['password_r']) {
-            return $this->view($res, 'auth/signup', [
-                'error' => 'The passwords didn\'t match',
-            ]);
-        }
-
         $v->validate([
             'username|Username'          => [$data['username'], 'required|alnumDash|min(5)|max(20)'],
             'password|Password'          => [$data['password'], 'required|alnumDash|min(6)|max(100)'],
-            'password_r|Password Repeat' => [$data['password_r'], 'required|alnumDash|min(5)|max(100)'],
+            'password_r|Password Repeat' => [$data['password_r'], 'required|matches(password)'],
         ]);
 
         if ($v->fails()) {

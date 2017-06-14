@@ -49,18 +49,6 @@ class Middleware
     {
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
             return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function cookieSet()
-    {
-        if (isset($_COOKIE['cookie'])) {
-            return true;
         }
 
         return false;

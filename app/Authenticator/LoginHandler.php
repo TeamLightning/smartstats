@@ -42,10 +42,6 @@ class LoginHandler extends Auth
         $data = $req->getParsedBody();
         $v = new v;
 
-        if ($this->cookieSet()) {
-            return $res->withHeader('Location', $this->container->router->pathFor('auth.cookie'));
-        }
-
         $v->validate([
             'username|Username' => [$data['username'], 'required|alnumDash|min(5)|max(20)'],
             'password|Password' => [$data['password'], 'required|alnumDash|min(6)|max(100)'],
@@ -55,27 +51,28 @@ class LoginHandler extends Auth
             return $this->view($res, 'auth/login', [
                 'validation' => $v->errors(),
             ]);
-        } else {
-
-            $result = $this->db->select('users', 'id', [
-                'username' => $data['username'],
-            ]);
-
-            switch (count($result)) {
-                case 1:
-                    $this->authenticate($data, $req, $res, $next);
-                    break;
-                case 0:
-                    return $this->view($res, 'auth/login', [
-                        'error' => 'Sorry, no account is associated with this username',
-                    ]);
-                    break;
-                default:
-                    return $this->view($res, 'auth/login', [
-                        'error' => 'Something really bad had happened. But don\'t worry, your account is safe',
-                    ]);
-            }
         }
+
+        $result = $this->db->select('users', 'id', [
+            'username' => $data['username'],
+        ]);
+
+        switch (count($result)) {
+            case 1:
+                $this->authenticate($data, $req, $res, $next);
+                break;
+            case 0:
+                return $this->view($res, 'auth/login', [
+                    'error' => 'Sorry, no account is associated with this username',
+                ]);
+
+                break;
+            default:
+                return $this->view($res, 'auth/login', [
+                    'error' => 'Something really bad had happened. But don\'t worry, your account is safe',
+                ]);
+        }
+
     }
 
     /**
@@ -109,17 +106,12 @@ class LoginHandler extends Auth
                 }
 
                 return $this->view($res, 'temp');
-            } else {
-                return $this->view($res, 'auth/login', [
-                    'error' => 'Oops, the password is wrong. Why not give another try?',
-                ]);
             }
+
+            return $this->view($res, 'auth/login', [
+                'error' => 'Oops, the password is wrong. Why not give another try?',
+            ]);
+
         }
-
-        //This will not happen. But, I wanted my IDE to un-mark this function as incomplete
-
-        return $this->view($res, 'auth/login', [
-            'error' => 'Oops, something really bad had happened. This actually should not occur.',
-        ]);
     }
 }

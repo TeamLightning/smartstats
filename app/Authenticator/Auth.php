@@ -61,9 +61,9 @@ class Auth
     {
         if (count($args)) {
             return $this->container->view->render($res, $template . '.twig', $args);
-        } else {
-            return $this->container->view->render($res, $template . '.twig');
         }
+
+        return $this->container->view->render($res, $template . '.twig');
     }
 
     /**
@@ -72,18 +72,6 @@ class Auth
     protected function db()
     {
         return $this->container->db;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function cookieSet()
-    {
-        if (isset($_COOKIE['cookie']) && $_COOKIE['cookie'] === true) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

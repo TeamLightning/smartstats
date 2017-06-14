@@ -43,8 +43,8 @@ class UserMiddleware extends Middleware
             $res = $next($req, $res);
 
             return $res;
-        } else {
-            return $res->withHeader('Location', $this->container->router->pathFor('index'));
         }
+
+        return $res->withHeader('Location', $this->container->router->pathFor('index'));
     }
 }
