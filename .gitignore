@@ -1,4 +1,4 @@
 vendor/*
-.idea/workspace.xml
+.idea/*
 storage/cache/views/*
 storage/cache/app/*
