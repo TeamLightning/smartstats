@@ -1,0 +1,32 @@
+{% extends 'auth/templates/app.twig' %}
+{% block content %}
+    <div class="card black grey z-depth-2" style="margin-top: 45px; margin-bottom: 45px;">
+        <div class="card-content">
+            <span class="card-title">Login now</span>
+            <form action="{{ path_for('auth.login.post') }}" method="POST">
+                <div class="input-group">
+                    <label for="username">Username or E-Mail</label>
+                    <input type="text" id="username" class="validate" name="username">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="validate" name="password">
+                </div>
+
+                <div class="input-group">
+                    <input type="submit" name="submit" value="Submit!" class="waves-effect waves-light btn blue">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if message %}
+        <div class="card red z-depth-2" style="margin-top: 45px; margin-bottom: 45px; color: #eeeeee !important;">
+            <div class="card-content">
+                <span class="card-title">Error</span>
+                {{ message }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

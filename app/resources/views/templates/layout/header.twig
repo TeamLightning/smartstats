@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slimex | The modern framework</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+    <link rel="stylesheet" href="http://localhost/css/simple-line-icons.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            background-color: #000000 !important;
+            color: #eeeeee !important;
+        }
+
+        .blue {
+            background-color: #10A98D !important;
+        }
+
+        .black {
+            background-color: #393e46 !important;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        .body-content {
+            margin-top: 45px;
+        }
+
+        .highlight {
+            color: #1de9c3;
+        }
+
+        h1, h2, h3, h4, h5, h6, p, span {
+            font-weight: 200;
+
+        }
+
+        h2 {
+            font-size: 3.56rem;
+        }
+
+        p {
+            font-weight: 200;
+            font-size: 1.4rem;
+        }
+
+        i {
+            color: #1de9c3;
+        }
+
+        hr {
+            border-color: #1de9c3;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper blue">
+            <a href="{{ path_for('index') }}" class="brand-logo"><i class="icon-fire" style="color: #ffffff; padding-left: 20px;"></i></a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="icon-menu" style="color: #ffffff"></i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ path_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ path_for('auth.signup') }}">Signup</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="{{ path_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ path_for('auth.signup') }}">Signup</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<main>
+    <div class="container">
