@@ -1,0 +1,46 @@
+{% extends 'auth/templates/app.twig' %}
+{% block content %}
+    <div class="card black" style="margin-top: 45px; margin-bottom: 45px;">
+        <div class="card-content">
+            <span class="card-title">Register now</span>
+            <form action="{{ path_for('auth.register.post') }}" method="POST">
+                <div class="input-group">
+                    <label for="username" class="white-text">Username</label>
+                    <input type="text" id="username" class="validate" name="username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email" class="white-text">E-Mail</label>
+                    <input type="email" id="email" class="validate" name="email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password" class="white-text">Password</label>
+                    <input type="password" id="password" class="validate" name="password" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="submit" name="submit" value="Submit!" class="waves-effect waves-light btn blue">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if error %}
+        <div class="card red z-depth-2" style="margin-top: 45px; margin-bottom: 45px; color: #eeeeee !important;">
+            <div class="card-content">
+                <span class="card-title">Error</span>
+                {{ error }}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if message %}
+        <div class="card blue z-depth-2" style="margin-top: 45px; margin-bottom: 45px; color: #eeeeee !important;">
+            <div class="card-content">
+                <span class="card-title">Message for you!</span>
+                {{ message }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -4,43 +4,89 @@
     <meta charset="UTF-8">
     <title>Slimex | The modern framework</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+    <link rel="stylesheet" href="css/simple-line-icons.css">
     <style>
         body {
             display: flex;
             min-height: 100vh;
             flex-direction: column;
-            background-color: #eeeeee !important;
+            background-color: #000000 !important;
+            color: #eeeeee !important;
         }
 
         .blue {
-            background-color: #00adb5 !important;
+            background-color: #10A98D !important;
         }
 
         .black {
             background-color: #393e46 !important;
         }
 
-        .grey {
-            color: #eeeeee !important;
-        }
-
         main {
             flex: 1 0 auto;
+        }
+
+        .body-content {
+            margin-top: 45px;
+        }
+
+        .highlight {
+            color: #1de9c3;
+        }
+
+        h1, h2, h3, h4, h5, h6, p, span {
+            font-weight: 200;
+
+        }
+
+        h2 {
+            font-size: 3.56rem;
+        }
+
+        p {
+            font-weight: 200;
+            font-size: 1.4rem;
+        }
+
+        i {
+            color: #1de9c3;
+        }
+
+        hr {
+            border-color: #1de9c3;
+        }
+
+        .menu {
+            color: #ffffff !important;
         }
     </style>
 </head>
 <body>
+<div class="navbar-fixed">
     <nav>
-        <div class="nav-wrapper blue">
-            <div class="container">
-                <a href="#" class="brand-logo">Smart Stats</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="https://smarthacks.github.io/slimex">DOCUMENTATION</a></li>
-                    <li><a href="https://forum.smarthacksinc.com">COMMUNITY</a></li>
-                    <li><a href="https://github.com/smarthack/slimex">GITHUB</a></li>
+        <div class="container">
+            <div class="nav-wrapper blue">
+                <a href="{{ path_for('index') }}" class="brand-logo"><i class="icon-fire menu"></i></a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="icon-menu menu"></i></a>
+                <ul class="right hide-on-med-and-down">
+                    {% if loggedIn() %}
+                        <li><a href="{{ path_for('user.home') }}">Home</a></li>
+                    {% else %}
+                        <li><a href="{{ path_for('auth.login') }}">Login</a></li>
+                        <li><a href="{{ path_for('auth.register') }}">Signup</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    {% if loggedIn() %}
+                        <li><a href="{{ path_for('user.home') }}">Home</a></li>
+                    {% else %}
+                        <li><a href="{{ path_for('auth.login') }}">Login</a></li>
+                        <li><a href="{{ path_for('auth.register') }}">Signup</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
-    <main>
-        <div class="container">
+</div>
+<main>
+    <div class="container">
