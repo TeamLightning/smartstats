@@ -1,24 +1,23 @@
 {
-  "name": "smarthacks/slimex",
-  "description": "A framework created using slim php to kickstart your project and stand out",
+  "name": "teamlightning/smartstats",
+  "description": "An awesome, sleek and speedy server status reporter",
   "minimum-stability": "stable",
   "license": "MIT",
   "type": "project",
   "authors": [
     {
       "name": "xXAlphaManXx",
-      "email": "alpha@smarthacksinc.com"
+      "email": "alpha@teamlightning.xyz"
     }
   ],
   "require": {
-    "slim/slim": "3.8.1",
-    "slim/twig-view": "2.2.0",
-    "catfan/medoo": "1.4.4",
+    "slim/slim": "3.8.*",
+    "slim/twig-view": "2.2.*",
     "php": "7.*",
-    "delight-im/auth": "^5.1",
-    "phpmailer/phpmailer": "^5.2",
-    "symfony/dotenv": "^3.3",
-    "illuminate/database": "^5.4"
+    "delight-im/auth": "5.*",
+    "phpmailer/phpmailer": "5.*",
+    "symfony/dotenv": "3.*",
+    "illuminate/database": "5.*"
   },
   "autoload": {
     "psr-4":{
