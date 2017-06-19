@@ -29,6 +29,10 @@ $container['view'] = function ($container) {
         return getenv('SITE_URL');
     }));
 
+    $view->getEnvironment()->addFunction(new \Twig_Function('username', function () use ($container) {
+        return $container->auth->getUsername();
+    }));
+
     $view->getEnvironment()->addFunction(new Twig_Function('loggedIn', function () {
         return isset($_SESSION) && isset($_SESSION['auth_logged_in']) && $_SESSION['auth_logged_in'] === true;
     }));

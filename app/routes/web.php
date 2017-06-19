@@ -2,6 +2,7 @@
 
 use App\Authenticator\AuthHandler;
 use App\Controllers\HomeController;
+use App\Controllers\UserController;
 use App\Middlewares\UserMiddleware;
 use App\Middlewares\GuestMiddleware;
 
@@ -23,5 +24,5 @@ $app->group('/auth', function () {
 
 $app->group('/user', function () {
 
-    $this->get('/home', HomeController::class . ':test')->setName('user.home');
+    $this->get('/home', UserController::class . ':home')->setName('user.home');
 })->add(new UserMiddleware($container));
