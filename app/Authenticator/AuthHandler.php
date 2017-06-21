@@ -120,7 +120,9 @@ class AuthHandler
             ], $res);
         }
         catch (DatabaseError $e) {
-            //
+            return $this->view('auth/login', [
+                'message' => 'Unknown error with database. Problem reported to the developer'
+            ], $res);
         }
     }
 
