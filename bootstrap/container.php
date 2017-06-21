@@ -1,6 +1,16 @@
 <?php
 
 $container['config'] = function ($container) {
+
+    if(!file_exists(__DIR__ . '/../.env')) {
+        if(!file_exists(__DIR__ . '/../.env.example')) {
+            die('INSTALLATION ERROR! .env FILE NOT FOUND');
+        } else {
+            copy(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
+            die('CONFIGURATION FILE CREATED. PLEASE EDIT THE VALUES IN .env');
+        }
+    }
+
     $dotenv = new Symfony\Component\Dotenv\Dotenv();
     $dotenv->load(__DIR__ . '/../.env');
 
@@ -16,9 +26,7 @@ $container['auth'] = function ($container) {
 
 $container['view'] = function ($container) {
     $container->config;
-    $view = new \Slim\Views\Twig(__DIR__.'/../app/resources/views', [
-        //'cache' => __DIR__.'/../storage/cache/views',
-    ]);
+    $view = new \Slim\Views\Twig(__DIR__.'/../app/resources/views', ['cache' => __DIR__ . '/../storage/cache/views']);
 
     $basePath = rtrim(str_ireplace('index.php', '',
         $container['request']->getUri()->getBasePath()), '/');

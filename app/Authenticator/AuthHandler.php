@@ -13,6 +13,7 @@ use Delight\Auth\InvalidEmailException;
 use Delight\Auth\EmailOrUsernameRequiredError;
 use Delight\Auth\EmailNotVerifiedException;
 use Delight\Auth\UnknownUsernameException;
+use Delight\Auth\DatabaseError;
 
 require __DIR__ . '/../../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 
@@ -117,6 +118,9 @@ class AuthHandler
             return $this->view('auth/login', [
                 'message' => 'Email or username is required. Try entering them.'
             ], $res);
+        }
+        catch (DatabaseError $e) {
+            //
         }
     }
 
