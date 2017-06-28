@@ -26,7 +26,7 @@ $container['auth'] = function ($container) {
 
 $container['view'] = function ($container) {
     $container->config;
-    $view = new \Slim\Views\Twig(__DIR__.'/../app/resources/views', ['cache' => __DIR__ . '/../storage/cache/views']);
+    $view = new \Slim\Views\Twig(__DIR__.'/../app/resources/views'/*, ['cache' => __DIR__ . '/../storage/cache/views']*/);
 
     $basePath = rtrim(str_ireplace('index.php', '',
         $container['request']->getUri()->getBasePath()), '/');
@@ -43,6 +43,10 @@ $container['view'] = function ($container) {
 
     $view->getEnvironment()->addFunction(new Twig_Function('loggedIn', function () {
         return isset($_SESSION) && isset($_SESSION['auth_logged_in']) && $_SESSION['auth_logged_in'] === true;
+    }));
+
+    $view->getEnvironment()->addFunction(new Twig_Function('js', function($file) {
+
     }));
 
     return $view;
