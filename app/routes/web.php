@@ -1,5 +1,6 @@
 <?php
 
+use App\Handler\StatusIndexer;
 use App\Authenticator\AuthHandler;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
@@ -26,3 +27,11 @@ $app->group('/user', function () {
 
     $this->get('/home', UserController::class . ':home')->setName('user.home');
 })->add(new UserMiddleware($container));
+
+$app->group('/cron/index', function()
+{
+    $this->get('/free', StatusIndexer::class . ':indexServerFree');
+    $this->get('/silver', StatusIndexer::class . ':indexServerSilver');
+    $this->get('/gold', StatusIndexer::class . ':indexServerGold');
+    $this->get('/diamond', StatusIndexer::class . ':indexServerDiamond');
+});
