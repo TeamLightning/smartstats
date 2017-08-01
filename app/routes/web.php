@@ -9,7 +9,7 @@ use App\Middlewares\GuestMiddleware;
 
 $app->get('/', HomeController::class . ':index')->setName('index');
 
-$app->group('/auth', function () {
+$app->group('/auth', function () use ($container) {
     $this->get('/login', HomeController::class . ':login')
         ->setName('auth.login');
     $this->get('/register', HomeController::class . ':register')
@@ -23,8 +23,8 @@ $app->group('/auth', function () {
         ->setName('auth.register.post');
 })->add(new GuestMiddleware($container));
 
-$app->group('/user', function () {
-
+$app->group('/user', function () use ($container) {
+    $this->get('/logout', AuthHandler::class . ':logout')->setName('logout');
     $this->get('/home', UserController::class . ':home')->setName('user.home');
 })->add(new UserMiddleware($container));
 

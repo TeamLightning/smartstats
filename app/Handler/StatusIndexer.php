@@ -2,17 +2,16 @@
 
 namespace App\Handler;
 
+use App\Models\Info;
+use App\Models\User;
+use App\Models\Server;
+
 class StatusIndexer {
 
     /**
      * @var \Slim\Container $container
      */
     protected $container;
-
-    /**
-     * @var \Illuminate\Database\Query\Builder $db
-     */
-    protected $db;
 
     /**
      * @var \PHPMailer $mail
@@ -26,28 +25,29 @@ class StatusIndexer {
     public function __construct($container)
     {
         $this->container = $container;
-        $this->db        = $container->db->table('servers');
         $this->mail      = new \PHPMailer();
     }
 
     public function indexServerFree()
     {
-        $this->db->select('*')->where('type', 0)->chunk(50, function ($servers)
+        Server::where('type', 0)->chunk(50, function ($servers)
         {
             foreach ($servers as $server) {
                 $status = @fsockopen($server->ipAddress, $server->port, $errno, $errstr, 0.5);
+                $info = Info::where('user', $server->user)->get();
+                $user = User::where('id', $server->user)->get();
 
                 if ($status) {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 1
-                    ]);
+                    Server::where('id', $server->id)->update(['status' => 1]);
                 } else {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 0
-                    ]);
-                    $this->sendMail($server->email, $server->name, $server->ipAddress);
+                    Server::where('id', $server->id)->update(['status' => 0]);
+
+                    $info->offline_count = $info->offline_count + 1;
+                    $info->save();
+
+                    $this->sendMail($user->email, $server->name, $server->ipAddress);
                 }
             }
         });
@@ -55,22 +55,24 @@ class StatusIndexer {
 
     public function indexServerSilver()
     {
-        $this->db->select('*')->where('type', 1)->chunk(50, function ($servers)
+        Server::where('type', 1)->chunk(50, function ($servers)
         {
             foreach ($servers as $server) {
                 $status = @fsockopen($server->ipAddress, $server->port, $errno, $errstr, 0.5);
+                $info = Info::where('user', $server->user)->get();
+                $user = User::where('id', $server->user)->get();
 
                 if ($status) {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 1
-                    ]);
+                    Server::where('id', $server->id)->update(['status' => 1]);
                 } else {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 0
-                    ]);
-                    $this->sendMail($server->email, $server->name, $server->ipAddress);
+                    Server::where('id', $server->id)->update(['status' => 0]);
+
+                    $info->offline_count = $info->offline_count + 1;
+                    $info->save();
+
+                    $this->sendMail($user->email, $server->name, $server->ipAddress);
                 }
             }
         });
@@ -78,22 +80,24 @@ class StatusIndexer {
 
     public function indexServerGold()
     {
-        $this->db->select('*')->where('type', 2)->chunk(50, function ($servers)
+        Server::where('type', 2)->chunk(50, function ($servers)
         {
             foreach ($servers as $server) {
                 $status = @fsockopen($server->ipAddress, $server->port, $errno, $errstr, 0.5);
+                $info = Info::where('user', $server->user)->get();
+                $user = User::where('id', $server->user)->get();
 
                 if ($status) {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 1
-                    ]);
+                    Server::where('id', $server->id)->update(['status' => 1]);
                 } else {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 0
-                    ]);
-                    $this->sendMail($server->email, $server->name, $server->ipAddress);
+                    Server::where('id', $server->id)->update(['status' => 0]);
+
+                    $info->offline_count = $info->offline_count + 1;
+                    $info->save();
+
+                    $this->sendMail($user->email, $server->name, $server->ipAddress);
                 }
             }
         });
@@ -101,22 +105,24 @@ class StatusIndexer {
 
     public function indexServerDiamond()
     {
-        $this->db->select('*')->where('type', 3)->chunk(50, function ($servers)
+        Server::where('type', 3)->chunk(50, function ($servers)
         {
             foreach ($servers as $server) {
                 $status = @fsockopen($server->ipAddress, $server->port, $errno, $errstr, 0.5);
+                $info = Info::where('user', $server->user)->get();
+                $user = User::where('id', $server->user)->get();
 
                 if ($status) {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 1
-                    ]);
+                    Server::where('id', $server->id)->update(['status' => 1]);
                 } else {
 
-                    $this->db->where(['id' => $server->id])->insert([
-                        'status' => 0
-                    ]);
-                    $this->sendMail($server->email, $server->name, $server->ipAddress);
+                    Server::where('id', $server->id)->update(['status' => 0]);
+
+                    $info->offline_count = $info->offline_count + 1;
+                    $info->save();
+
+                    $this->sendMail($user->email, $server->name, $server->ipAddress);
                 }
             }
         });
@@ -124,18 +130,6 @@ class StatusIndexer {
 
     public function sendMail($to, $serverName, $serverIp)
     {
-        // Configuration
-        $this->mail->isSMTP();
-        $this->mail->Host = getenv('SMTP_HOST');
-        $this->mail->SMTPAuth = true;
-        $this->mail->Username = getenv('SMTP_USER');
-        $this->mail->Password = getenv('SMTP_PASS');
-        $this->mail->SMTPSecure = 'tls';
-        $this->mail->Port = 587;
-        $this->mail->isHTML(true);
-        $this->mail->setFrom(getenv('SMTP_MAIL_FROM'), getenv('SMTP_MAIL_FRON_NAME'));
-        $this->mail->addReplyTo(getenv('SMTP_MAIL_REPLY'), getenv('SMTP_MAIL_REPLY_NAME'));
-
         // Sending logic
         $this->mail->addAddress($to);
         $this->mail->Subject('ATTENTION! YOUR SERVER IS OFFLINE - Smart Stats');

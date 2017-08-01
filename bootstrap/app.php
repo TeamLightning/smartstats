@@ -11,5 +11,4 @@ $app = new \Slim\App([
 $container = $app->getContainer();
 
 require 'container.php';
-require 'middleware.php';
 require __DIR__ . '/../app/routes/web.php';

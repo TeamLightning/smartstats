@@ -10,6 +10,7 @@ class UserMiddleware extends Middleware {
         if ($this->auth->isLoggedIn()) {
 
             $res = $next($req, $res);
+
             return $res;
         }
 

@@ -2,27 +2,53 @@
 
 namespace App\Handler;
 
+use App\Models\Info;
+use App\Models\Server;
 
-class ServerHandler {
-
-    /**
-     * @var \Slim\Container $container
-     */
-    protected $container;
+class ServerHandler extends Handler {
 
     /**
-     * @var \Illuminate\Database\Query\Builder $db
+     * @param $name
+     * @param $port
+     * @param $ipAddress
+     *
+     * @return bool
      */
-    protected $db;
-
-    public function __construct($container)
+    public function addServer ($name, $port, $ipAddress)
     {
-        $this->container = $container;
-        $this->db        = $container->db->table('servers');
+        $info   = Info::where('user', $this->auth->getUserId())->get();
+        $server = new Server();
+
+        $server->ipAddress = $ipAddress;
+        $server->name      = $name;
+        $server->port      = $port;
+        $server->type      = 0;
+        $server->user      = $this->auth->getUserId();
+
+        if ($server->save()) {
+            $info->offline_count = $info->offline_count + 1;
+
+            if ($info->save()) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
     }
 
-    public function checkServer()
+    /**
+     * @param int $id ID of the server to be deleted
+     */
+    public function deleteServer ($id)
     {
-        $this->db->select('*')->where(['user_id']);
+        Server::where('id', $id)->delete();
+
+        $info = Info::where('user', $this->auth->getUserId());
+        $slot = $info->slots;
+
+        $info->slots = $slot - 1;
+        $info->save();
     }
 }

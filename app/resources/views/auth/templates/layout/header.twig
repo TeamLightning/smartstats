@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Slimex | The modern framework</title>
+    <title>Smart Stats | The best server status reporter with EMail, SMS and Push notifications</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
     <link rel="stylesheet" href="css/simple-line-icons.css">
     <style>
@@ -34,19 +34,19 @@
             color: #1de9c3;
         }
 
-        h1, h2, h3, h4, h5, h6, p, span {
-            font-weight: 200;
+        /*h1, h2, h3, h4, h5, h6, p, span {*/
+            /*font-weight: 200;*/
 
-        }
+        /*}*/
 
-        h2 {
-            font-size: 3.56rem;
-        }
+        /*h2 {*/
+            /*font-size: 3.56rem;*/
+        /*}*/
 
-        p {
-            font-weight: 200;
-            font-size: 1.4rem;
-        }
+        /*p {*/
+            /*font-weight: 200;*/
+            /*font-size: 1.4rem;*/
+        /*}*/
 
         i {
             color: #1de9c3;
@@ -63,17 +63,17 @@
 </head>
 <body>
 <div class="navbar-fixed">
-    <nav>
+    <nav class="blue">
         <div class="container">
-            <div class="nav-wrapper blue">
-                <a href="{{ path_for('index') }}" class="brand-logo"><i class="icon-fire menu"></i></a>
+            <div class="nav-wrapper">
+                <a href="{{ path_for('index') }}" class="brand-logo">Smart Stats</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="icon-menu menu"></i></a>
                 <ul class="right hide-on-med-and-down">
                     {% if loggedIn() %}
                         <li><a href="{{ path_for('user.home') }}">Home</a></li>
                     {% else %}
                         <li><a href="{{ path_for('auth.login') }}">Login</a></li>
-                        <li><a href="{{ path_for('auth.register') }}">Signup</a></li>
+                        <li><a href="{{ path_for('auth.register') }}">Register</a></li>
                     {% endif %}
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
@@ -81,7 +81,7 @@
                         <li><a href="{{ path_for('user.home') }}">Home</a></li>
                     {% else %}
                         <li><a href="{{ path_for('auth.login') }}">Login</a></li>
-                        <li><a href="{{ path_for('auth.register') }}">Signup</a></li>
+                        <li><a href="{{ path_for('auth.register') }}">Register</a></li>
                     {% endif %}
                 </ul>
             </div>
