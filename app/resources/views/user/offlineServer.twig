@@ -1,3 +1,6 @@
+{% extends 'user/templates/app.twig' %}
+
+{% block content %}
 <div class="row clearfix">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
@@ -16,14 +19,17 @@
                     <tr>
                         <td>1</td>
                         <td>SMART CLASH | SERVER ONE | NO MOD</td>
+                        <td><a href=""><i class="material-icons" style="color: red">delete</i></a></td>
                     </tr>
                     <tr>
                         <td>2</td>
                         <td>A SERVER WITH A VERY LONG TEXT TO TEST THE RESPONSIVENESS OF THE TABLE</td>
+                        <td><a href=""><i class="material-icons" style="color: red">delete</i></a></td>
                     </tr>
                     <tr>
                         <td>3</td>
                         <td>MY ANOTHER COMPETITOR WHO IS WASTE AS MUCH AS A UE in Queue</td>
+                        <td><a href=""><i class="material-icons" style="color: red">delete</i></a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -31,3 +37,4 @@
         </div>
     </div>
 </div>
+{% endblock %}

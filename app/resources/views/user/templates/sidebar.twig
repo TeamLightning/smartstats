@@ -28,9 +28,21 @@
                 </a>
             </li>
             <li>
-                <a href="pages/typography.html">
-                    <i class="material-icons">text_fields</i>
-                    <span>Typography</span>
+                <a href="{{ path_for('user.trash') }}">
+                    <i class="material-icons">delete</i>
+                    <span>Trash</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path_for('user.online') }}">
+                    <i class="material-icons" style="color: green">trending_up</i>
+                    <span>Online servers</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path_for('user.offline') }}">
+                    <i class="material-icons" style="color: red">trending_down</i>
+                    <span>Offline servers</span>
                 </a>
             </li>
         </ul>

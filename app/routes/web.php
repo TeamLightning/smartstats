@@ -26,6 +26,9 @@ $app->group('/auth', function () use ($container) {
 $app->group('/user', function () use ($container) {
     $this->get('/logout', AuthHandler::class . ':logout')->setName('logout');
     $this->get('/home', UserController::class . ':home')->setName('user.home');
+    $this->get('/trash', UserController::class . ':trash')->setName('user.trash');
+    $this->get('/offline', UserController::class . ':offlineServers')->setName('user.offline');
+    $this->get('/online', UserController::class . ':onlineServers')->setName('user.online');
 })->add(new UserMiddleware($container));
 
 $app->group('/cron/index', function()

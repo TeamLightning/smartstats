@@ -35,7 +35,11 @@ $container['auth'] = function () {
 };
 
 $container['view'] = function ($container) {
-    $view = new \Slim\Views\Twig(__DIR__.'/../app/resources/views'/*, ['cache' => __DIR__ . '/../storage/cache/views']*/);
+    $view = new \Slim\Views\Twig(__DIR__.'/../app/resources/views'/*,
+        [
+            'cache' => __DIR__ . '/../cache'
+        ]*/
+    );
 
     $basePath = rtrim(str_ireplace('index.php', '',
         $container['request']->getUri()->getBasePath()), '/');
