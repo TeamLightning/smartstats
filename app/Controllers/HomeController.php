@@ -41,4 +41,5 @@ class HomeController extends Controller
     {
         return $this->view('auth/register', [], $res);
     }
+
 }

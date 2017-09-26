@@ -3,7 +3,8 @@
 namespace App\Exceptions;
 
 
-class NotAdminException extends \Exception {
-
+class NotAdminException extends \Exception
+{
     //
+
 }

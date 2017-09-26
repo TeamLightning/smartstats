@@ -2,7 +2,7 @@
 
 if(!file_exists(__DIR__ . '/../.env')) {
     if(!file_exists(__DIR__ . '/../.env.example')) {
-        die('INSTALLATION ERROR! .env FILE NOT FOUND');
+        die('INSTALLATION ERROR! .env.example FILE NOT FOUND');
     } else {
         copy(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
         die('CONFIGURATION FILE CREATED. PLEASE EDIT THE VALUES IN .env');

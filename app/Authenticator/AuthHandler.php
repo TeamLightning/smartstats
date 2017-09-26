@@ -2,6 +2,8 @@
 
 namespace App\Authenticator;
 
+use App\Handler\RegisterHandler;
+use App\Handler\UserInfoHandler;
 use Delight\Auth\AmbiguousUsernameException;
 use Delight\Auth\TooManyRequestsException;
 use Delight\Auth\TokenExpiredException;
@@ -18,7 +20,8 @@ use App\Exceptions\InformationSavingError;
 
 require __DIR__ . '/../../vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 
-class AuthHandler {
+class AuthHandler
+{
     /**
      * @var \Delight\Auth\Auth
      */
@@ -39,6 +42,11 @@ class AuthHandler {
      */
     private $sent = false;
 
+    /**
+     * AuthHandler constructor.
+     *
+     * @param \Slim\Container $container
+     */
     public function __construct($container)
     {
         $this->mail = new \PHPMailer();
@@ -47,6 +55,9 @@ class AuthHandler {
         $this->config();
     }
 
+    /**
+     * Method to config mail class
+     */
     private function config()
     {
         $this->mail->isSMTP();
@@ -62,6 +73,8 @@ class AuthHandler {
     }
 
     /**
+     * Login the user based on the input
+     *
      * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
@@ -75,13 +88,13 @@ class AuthHandler {
         try {
             if(isset($data['remember']) && $data['remember'] === 'on') {
                 $this->auth->loginWithUsername($data['username'], $data['password'], (int) (60 * 60 * 24 * 365.25));
-                new \App\Handler\UserInfoHandler($this->auth);
+                new UserInfoHandler($this->auth);
 
                 return $res->withRedirect($this->container->router->pathFor('user.home'));
             }
 
             $this->auth->loginWithUsername($data['username'], $data['password']);
-            new \App\Handler\UserInfoHandler($this->auth);
+            new UserInfoHandler($this->auth);
 
             return $res->withRedirect($this->container->router->pathFor('user.home'));
         }
@@ -128,6 +141,8 @@ class AuthHandler {
     }
 
     /**
+     * verify the email address of the registered user
+     *
      * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
@@ -161,6 +176,8 @@ class AuthHandler {
     }
 
     /**
+     * Register the user based on the data sent
+     *
      * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args
@@ -172,11 +189,11 @@ class AuthHandler {
         $data = $req->getParsedBody();
 
         try {
-            $userId = $this->auth->registerWithUniqueUsername($data['email'], $data['password'], $data['username'], function ($selector, $token) use ($data) {
+            $this->auth->registerWithUniqueUsername($data['email'], $data['password'], $data['username'], function ($selector, $token) use ($data) {
                 $this->send($data['email'], urlencode($selector), urlencode($token), $data['username']);
             });
 
-            $register = new \App\Handler\RegisterHandler();
+            $register = new RegisterHandler();
             $register->registerWithInformation($this->auth);
 
             if ($this->sent) {
@@ -227,6 +244,8 @@ class AuthHandler {
     }
 
     /**
+     * Send the verification Email to the user email address
+     *
      * @param string $to       Email of the recipient
      * @param string $selector Special selector for the user
      * @param string $token    Special token for the user
@@ -244,6 +263,8 @@ class AuthHandler {
     }
 
     /**
+     * Render required template and respond with it
+     *
      * @param string                                                    $template
      * @param array                                                     $args
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response   $res
@@ -256,6 +277,8 @@ class AuthHandler {
     }
 
     /**
+     * Safely logout the user by deleting everything from the client browser
+     *
      * @param \Psr\Http\Message\RequestInterface|\Slim\Http\Request   $req
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $res
      * @param \Psr\Http\Message\ResponseInterface|\Slim\Http\Response $args

@@ -4,7 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Info extends Model {
+class Info extends Model
+{
+    public function user ()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 
-    protected $table = "info";
 }

@@ -15,9 +15,15 @@ class Middleware {
      */
     protected $auth;
 
+    /**
+     * Middleware constructor.
+     *
+     * @param \Slim\Container $container
+     */
     public function __construct($container)
     {
         $this->container = $container;
         $this->auth      = $container->auth;
     }
+
 }

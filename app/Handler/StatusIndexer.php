@@ -136,6 +136,8 @@ class StatusIndexer {
         $this->mail->Body("<b>ATTENTION Smart Stats user, your server named " . $serverName . " with IP" . $serverIp
                     . " was found <span style=\"color: red;\">offline</span>. Please take quick action. <br />"
                     . "<i>If you think this is an error from our side, then please reply to this E-Mail</i></b>");
+        $this->mail->Priority = 1;
         $this->mail->send();
     }
+
 }

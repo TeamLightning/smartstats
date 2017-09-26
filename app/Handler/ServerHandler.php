@@ -71,4 +71,5 @@ class ServerHandler extends Handler {
 
         return $this->status;
     }
+
 }

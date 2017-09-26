@@ -60,4 +60,5 @@ class UserController extends Controller {
     {
         return $this->view('user/onlineServer', [], $res);
     }
+
 }

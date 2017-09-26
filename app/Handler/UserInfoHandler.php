@@ -61,7 +61,8 @@ class UserInfoHandler {
             endswitch;
         }
 
-        // IMPOSSIBLE. But the IDE is killing me with errors
+        // IMPOSSIBLE. But the IDE is killing me with warnings
         return $_SESSION['type'] = 0;
     }
+
 }

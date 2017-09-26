@@ -8,7 +8,6 @@ class UserMiddleware extends Middleware {
     public function __invoke($req, $res, $next)
     {
         if ($this->auth->isLoggedIn()) {
-
             $res = $next($req, $res);
 
             return $res;
@@ -16,4 +15,5 @@ class UserMiddleware extends Middleware {
 
         return $res->withRedirect($this->container->router->pathFor('user.home'));
     }
+
 }

@@ -25,9 +25,10 @@ class RegisterHandler {
         $info->max = 5;
 
         if ($info->save()) {
-            return TRUE;
+            return true;
         }
 
-        throw new InformationSavingError();
+        throw new InformationSavingError('Unable to save the user information');
     }
+
 }

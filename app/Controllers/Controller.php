@@ -47,4 +47,5 @@ class Controller
     {
         return $this->container->view->render($res, $template.'.twig', $args);
     }
+
 }

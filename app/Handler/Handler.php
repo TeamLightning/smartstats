@@ -45,4 +45,5 @@ class Handler {
         $this->mail->setFrom(getenv('SMTP_MAIL_FROM'), getenv('SMTP_MAIL_FRON_NAME'));
         $this->mail->addReplyTo(getenv('SMTP_MAIL_REPLY'), getenv('SMTP_MAIL_REPLY_NAME'));
     }
+
 }
